@@ -1,5 +1,9 @@
 package com.ceiba.parqueadero.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +38,7 @@ public class RegistrarIngresoController {
 
 		this.mapper = new ObjectMapper();
 		Parqueadero parqueadero = parqueaderoService.findById(1L);
-		Vehiculo vehiculoID = new Vehiculo();
+
 		if (parqueadero.getCeldasCarro() <= 0 && parqueadero.getCeldasMoto() <= 0) {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(), "No hay celdas disponibles");
 		} else {
@@ -42,13 +46,13 @@ public class RegistrarIngresoController {
 				Vehiculo vehiculo = this.mapper.readValue(vehiculoJson, Vehiculo.class);
 
 				validarVehiculo(vehiculo);
-
-				validarCeldasDisponibles(parqueadero, vehiculo);
 				// TODO: Validar que si la placa comienza con A y es Dom-lunes no se le permite
 				// el ingreso
-				// TODO: Validar si la placa ya se encuentra en el parqueadero
+				validarPlacaYDiaSemana(vehiculo);
+				
+				validarCeldasDisponibles(parqueadero, vehiculo);
 				validarVehiculoEnParqueadero(vehiculo);
-				vehiculoID = vehiculoService.findByPlaca(vehiculo);
+				Vehiculo vehiculoID = vehiculoService.findByPlaca(vehiculo);
 				Parqueo parqueo = new Parqueo();
 				if (vehiculoID == null) {
 					vehiculoService.save(vehiculo);
@@ -71,14 +75,24 @@ public class RegistrarIngresoController {
 
 			} catch (Exception e) {
 				return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
-						"NO SE REGISTRO INGRESO"+ " " + e.getMessage() );
+						"NO SE REGISTRO INGRESO" + " " + e.getMessage());
 			}
 		}
 
 	}
 
+	private void validarPlacaYDiaSemana(Vehiculo vehiculo) throws Exception {
+		Date date  = new Date();
+		DateFormat formatoDia = new SimpleDateFormat("EEEE");				
+		String diaDeLaSemana = formatoDia.format(date);
+		
+		if("SUNDAY".equalsIgnoreCase(diaDeLaSemana) || "MONDAY".equalsIgnoreCase(diaDeLaSemana)&& "A".equalsIgnoreCase(vehiculo.getPlaca())) {
+			throw new Exception("hoy las placan que comienzan con A no pueden ingresar");
+		}
+	}
+
 	private void validarVehiculoEnParqueadero(Vehiculo vehiculo) throws Exception {
-		Parqueo parqueoID = parqueoService.findByPlaca(vehiculo.getPlaca());
+		Parqueo parqueoID = parqueoService.findByPlacaAndFechaSalida(vehiculo.getPlaca(),null);
 		if (parqueoID != null) {
 			if (parqueoID.getFechaSalida() == null) {
 				throw new Exception("Vehiculo con la placa ingresada aun no ha reportado salida");
