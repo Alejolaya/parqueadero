@@ -15,4 +15,11 @@ public interface VehiculoService {
 	 * @param id
 	 */
 	void deleteVehiculoById(Long id);
+	
+	/**
+	 * buscar vehiculo por placa
+	 * @param vehiculo
+	 * @return
+	 */
+	Vehiculo findByPlaca(Vehiculo vehiculo);
 }

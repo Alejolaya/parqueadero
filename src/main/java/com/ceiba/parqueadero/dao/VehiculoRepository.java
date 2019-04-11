@@ -8,4 +8,6 @@ public interface VehiculoRepository extends JpaRepository<Vehiculo, Long>{
 
 	@SuppressWarnings("unchecked")
 	Vehiculo save(Vehiculo vehiculo);
+	
+	Vehiculo findByPlaca(String placa);
 }

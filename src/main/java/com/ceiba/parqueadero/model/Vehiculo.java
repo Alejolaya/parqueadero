@@ -13,7 +13,7 @@ public class Vehiculo extends ParentEntity{
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Column(name = "placa",nullable = false, length = 10)
+	@Column(name = "placa",nullable = false, length = 10, unique = true)
 	private String placa;
 	
 	@Column(name = "tipo_vehiculo",nullable = false, length = 4)

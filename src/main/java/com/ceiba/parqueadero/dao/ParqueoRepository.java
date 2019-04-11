@@ -8,4 +8,6 @@ public interface ParqueoRepository extends JpaRepository<Parqueo, Long>{
 
 	@SuppressWarnings("unchecked")
 	Parqueo save(Parqueo parqueo);
+
+	Parqueo findByPlaca(String placa);
 }

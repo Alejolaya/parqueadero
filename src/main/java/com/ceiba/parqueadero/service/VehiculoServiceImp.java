@@ -24,4 +24,10 @@ public class VehiculoServiceImp implements VehiculoService {
 
 	}
 
+	@Override
+	public Vehiculo findByPlaca(Vehiculo vehiculo) {
+		
+		return vehiculoRepository.findByPlaca(vehiculo.getPlaca());
+	}
+
 }

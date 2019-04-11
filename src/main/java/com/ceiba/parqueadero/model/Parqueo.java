@@ -1,12 +1,14 @@
 package com.ceiba.parqueadero.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "parqueo")
@@ -15,9 +17,11 @@ public class Parqueo extends ParentEntity {
 	private static final long serialVersionUID = 1L;
 	
 	@Column(name = "fecha_ingreso", nullable = false)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaIngreso;
 	
 	@Column(name = "fecha_salida", nullable = true)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaSalida;
 	
 	@Column(name = "placa", nullable = false)
@@ -26,7 +30,7 @@ public class Parqueo extends ParentEntity {
 	@Column(name = "parqueadero", nullable = true)
 	private Long parqueadero;
 	
-	@Column(name = "costo", nullable = false)
+	@Column(name = "costo", nullable = true)
 	private int costo;
 
 	public int getCosto() {

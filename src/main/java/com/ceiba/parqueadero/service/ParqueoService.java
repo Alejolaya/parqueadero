@@ -4,7 +4,9 @@ import com.ceiba.parqueadero.model.Parqueo;
 
 public interface ParqueoService {
 
-	Parqueo save(Parqueo parqueo);
+	Parqueo ingresar(Parqueo parqueo);
 	
-	Parqueo CalcularCosto(Parqueo parqueo);
+	Parqueo pagar(Parqueo parqueo);
+
+	Parqueo findByPlaca(String placa);
 }
