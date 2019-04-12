@@ -20,7 +20,7 @@ disableConcurrentBuilds()
  stage('Checkout') {
  steps{
  echo "------------>Checkout<------------"
- checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+ checkout([$class: 'GitSCM', branches: [[name: '*/development']],
 doGenerateSubmoduleConfigurations: false, extensions: [], gitTool:
 'Git_Centos', submoduleCfg: [], userRemoteConfigs: [[credentialsId:
 'GitHub_alejolaya', url:
@@ -28,24 +28,27 @@ doGenerateSubmoduleConfigurations: false, extensions: [], gitTool:
 
  }
  }
- stage('Unit Tests') {
+stage('Compile') {
  steps{
- echo "------------>Unit Tests<------------"
- sh 'gradle --b ./build.gradle test'
+ echo "------------>Compile<------------"
+ sh 'gradle --b ./build.gradle compileJava'
  }
  }
- stage('Integration Tests') {
- steps {
- echo "------------>Integration Tests<------------"
+ stage('Unit Tests and Integration test') {
+ steps{
+ echo "------------>Tests<------------"
+ sh 'gradle --stacktrace test'
+ junit '**/build/test-results/test/*xml'
+ 
  }
  }
+ 
  stage('Static Code Analysis') {
  steps{
  echo '------------>Análisis de código estático<------------'
  withSonarQubeEnv('Sonar') {
 sh "${tool name: 'SonarScanner',
-type:'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner
--Dproject.settings=sonar-project.properties"
+type:'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner-Dproject.settings=sonar-project.properties"
 Prácticas Técnicas (Gerencia Técnica)
  }
  }
@@ -53,6 +56,7 @@ Prácticas Técnicas (Gerencia Técnica)
  stage('Build') {
  steps {
  echo "------------>Build<------------"
+ sh 'gradle --b ./build.gradle build -x test'
  }
  }
  }
@@ -62,9 +66,12 @@ Prácticas Técnicas (Gerencia Técnica)
  }
  success {
  echo 'This will run only if successful'
+ junit '**/build/test-results/test/*.xml'
  }
  failure {
  echo 'This will run only if failed'
+ mail(to:'alejandro.olaya@ceiba.com.co',subject:"Failed pipeline:${currentBuild.fullDisplayName}",
+ body:"Something is wrong with ${env.BUILD_U}")
  }
  unstable {
  echo 'This will run only if the run was marked as unstable'
