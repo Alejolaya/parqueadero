@@ -38,7 +38,10 @@ public interface ParqueaderoService {
 	 */
 	Integer disminuirCeldaCarroDisponible(Long id);
 
-
+/**
+ * libera la celda donde se encuentre el vehiculo con la respectiva placa
+ * @param placa
+ */
 	void liberarCelda(String placa);
 	
 	

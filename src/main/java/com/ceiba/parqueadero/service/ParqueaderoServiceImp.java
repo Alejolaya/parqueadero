@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ceiba.parqueadero.dao.ParqueaderoRepository;
-import com.ceiba.parqueadero.dao.VehiculoRepository;
 import com.ceiba.parqueadero.model.Parqueadero;
-import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.model.Vehiculo;
 
 @Service

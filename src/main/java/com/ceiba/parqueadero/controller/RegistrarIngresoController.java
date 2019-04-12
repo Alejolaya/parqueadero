@@ -43,8 +43,8 @@ public class RegistrarIngresoController {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(), "No hay celdas disponibles");
 		} else {
 			try {
-				Vehiculo vehiculo = this.mapper.readValue(vehiculoJson, Vehiculo.class);
-
+//				Vehiculo vehiculo = this.mapper.readValue(vehiculoJson, Vehiculo.class);
+				Vehiculo vehiculo = vehiculoService.convertirJsonAVehiculo(vehiculoJson);
 				validarVehiculo(vehiculo);
 
 				validarPlacaYDiaSemana(vehiculo);
@@ -85,7 +85,7 @@ public class RegistrarIngresoController {
 		DateFormat formatoDia = new SimpleDateFormat("EEEE");				
 		String diaDeLaSemana = formatoDia.format(date);
 		
-		if("SUNDAY".equalsIgnoreCase(diaDeLaSemana) || "MONDAY".equalsIgnoreCase(diaDeLaSemana)&& 'A'==vehiculo.getPlaca().charAt(0)) {
+		if(!"SUNDAY".equalsIgnoreCase(diaDeLaSemana) && !"MONDAY".equalsIgnoreCase(diaDeLaSemana)&& 'A'==vehiculo.getPlaca().charAt(0)) {
 			throw new Exception("hoy las placas que comienzan con A no pueden ingresar");
 		}
 	}
