@@ -34,7 +34,7 @@ public class RegistrarSalidaController {
 			Parqueo parqueo = this.mapper.readValue(ParqueoJson, Parqueo.class);
 			Parqueo parqueoID = parqueoService.findByPlacaAndFechaSalida(parqueo.getPlaca(),null);
 			if(parqueoID == null) {
-				throw new Exception("No se encuentra la placa:"+" "+parqueo.getPlaca()+" no se encuentra en el sistema");
+				throw new Exception("No se encuentra la placa:"+" "+parqueo.getPlaca());
 			}
 			
 			parqueo = parqueoService.pagar(parqueoID);
@@ -46,15 +46,13 @@ public class RegistrarSalidaController {
 			//Traer tarifa 
 			//validar si es moto cobrarle y es alto cilindraje
 			
-			mensaje="Vehiculo con Placa: "+parqueo.getPlaca()+" paga: $"+parqueo.getCosto();
-			
-			
+	
+			return new RestResponse(HttpStatus.ACCEPTED.value(), "Vehiculo con Placa: "+parqueo.getPlaca()+" paga: $"+parqueo.getCosto());
 			
 		}catch (Exception e) {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(), "NO FUE POSIBLE REALIZAR PAGO: "+" "+e.getMessage());
 		}
-		//TODO:
-		//TODO:Validar que la placa exista	
-		return new RestResponse(HttpStatus.ACCEPTED.value(), mensaje);
+
+		
 	}
 }

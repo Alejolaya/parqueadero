@@ -46,8 +46,7 @@ public class RegistrarIngresoController {
 				Vehiculo vehiculo = this.mapper.readValue(vehiculoJson, Vehiculo.class);
 
 				validarVehiculo(vehiculo);
-				// TODO: Validar que si la placa comienza con A y es Dom-lunes no se le permite
-				// el ingreso
+
 				validarPlacaYDiaSemana(vehiculo);
 				
 				validarCeldasDisponibles(parqueadero, vehiculo);
@@ -71,7 +70,7 @@ public class RegistrarIngresoController {
 					parqueaderoService.disminuirCeldaCarroDisponible(1L);
 				}
 
-				return new RestResponse(HttpStatus.ACCEPTED.value(), "Vehiculo Registrado con exito");
+				return new RestResponse(HttpStatus.OK.value(), "Vehiculo Registrado con exito");
 
 			} catch (Exception e) {
 				return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
@@ -87,7 +86,7 @@ public class RegistrarIngresoController {
 		String diaDeLaSemana = formatoDia.format(date);
 		
 		if("SUNDAY".equalsIgnoreCase(diaDeLaSemana) || "MONDAY".equalsIgnoreCase(diaDeLaSemana)&& "A".equalsIgnoreCase(vehiculo.getPlaca())) {
-			throw new Exception("hoy las placan que comienzan con A no pueden ingresar");
+			throw new Exception("hoy las placas que comienzan con A no pueden ingresar");
 		}
 	}
 

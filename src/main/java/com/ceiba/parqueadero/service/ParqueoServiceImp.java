@@ -56,6 +56,7 @@ public class ParqueoServiceImp implements ParqueoService {
 		Date fechaActual = new Date();
 		Long diffInMillies = parqueo.getFechaIngreso().getTime() - fechaActual.getTime();
 		Long difEnHoras = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+		Long difEnMinutos = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
 		DecimalFormat df = new DecimalFormat("##");
 		df.setRoundingMode(RoundingMode.DOWN);
 		Long diasAPagar = Long.valueOf(df.format(difEnHoras / 24));
@@ -64,8 +65,19 @@ public class ParqueoServiceImp implements ParqueoService {
 			diasAPagar++;
 			horasRestantes = 0L;
 		} else {
+			df.setRoundingMode(RoundingMode.UP);
 			horasRestantes = Long.valueOf(df.format(horasRestantes));
 		}
+		
+		if(difEnMinutos<60) {
+			horasRestantes++;
+		}else {
+			Long minutosRestantes = difEnMinutos % 60;
+			if(minutosRestantes>0) {
+				horasRestantes++;
+			}
+		}
+		
 		Long horasAPagar = horasRestantes;
 		Long totalAPagar;
 		if ("M".equalsIgnoreCase(vehiculo.getTipoVehiculo())) {
