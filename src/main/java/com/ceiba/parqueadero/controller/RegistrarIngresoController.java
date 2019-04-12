@@ -85,7 +85,7 @@ public class RegistrarIngresoController {
 		DateFormat formatoDia = new SimpleDateFormat("EEEE");				
 		String diaDeLaSemana = formatoDia.format(date);
 		
-		if("SUNDAY".equalsIgnoreCase(diaDeLaSemana) || "MONDAY".equalsIgnoreCase(diaDeLaSemana)&& "A".equalsIgnoreCase(vehiculo.getPlaca())) {
+		if("SUNDAY".equalsIgnoreCase(diaDeLaSemana) || "MONDAY".equalsIgnoreCase(diaDeLaSemana)&& 'A'==vehiculo.getPlaca().charAt(0)) {
 			throw new Exception("hoy las placas que comienzan con A no pueden ingresar");
 		}
 	}
