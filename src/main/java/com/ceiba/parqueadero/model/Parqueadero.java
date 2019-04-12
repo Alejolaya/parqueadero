@@ -9,31 +9,42 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "parqueaderos")
 @Access(AccessType.FIELD)
-public class Parqueadero extends ParentEntity{
-	
+public class Parqueadero extends ParentEntity {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Column(name = "moto_hora", nullable = false)
 	private int motoHora;
-	
+
 	@Column(name = "moto_dia", nullable = false)
 	private int motoDia;
-	
+
 	@Column(name = "alto_cc", nullable = false)
 	private int altoCc;
-	
-	
+
 	@Column(name = "carro_hora", nullable = false)
 	private int carroHora;
-	
+
 	@Column(name = "carro_dia", nullable = false)
 	private int carroDia;
-	
-	@Column(name = "celdas_moto",nullable = false)
+
+	@Column(name = "celdas_moto", nullable = false)
 	private int celdasMoto;
-	
+
 	@Column(name = "celdas_carro", nullable = false)
 	private int celdasCarro;
+
+	public Parqueadero(Long id, int motoHora, int motoDia, int altoCc, int carroHora, int carroDia, int celdasMoto,
+			int celdasCarro) {
+		super(id);
+		this.motoHora = motoHora;
+		this.motoDia = motoDia;
+		this.altoCc = altoCc;
+		this.carroHora = carroHora;
+		this.carroDia = carroDia;
+		this.celdasMoto = celdasMoto;
+		this.celdasCarro = celdasCarro;
+	}
 
 	public int getMotoHora() {
 		return motoHora;
@@ -90,8 +101,5 @@ public class Parqueadero extends ParentEntity{
 	public void setCeldasCarro(int celdasCarro) {
 		this.celdasCarro = celdasCarro;
 	}
-	
-	
-	
-	
+
 }

@@ -14,6 +14,9 @@ import javax.persistence.TemporalType;
 @Table(name = "parqueo")
 @Access(AccessType.FIELD)
 public class Parqueo extends ParentEntity {
+
+
+
 	private static final long serialVersionUID = 1L;
 	
 	@Column(name = "fecha_ingreso", nullable = false)
@@ -33,6 +36,18 @@ public class Parqueo extends ParentEntity {
 	@Column(name = "costo", nullable = true)
 	private int costo;
 
+	public Parqueo(Long id, Date fechaIngreso, Date fechaSalida, String placa, Long parqueadero, int costo) {
+		super(id);
+		this.fechaIngreso = fechaIngreso;
+		this.fechaSalida = fechaSalida;
+		this.placa = placa;
+		this.parqueadero = parqueadero;
+		this.costo = costo;
+	}
+	
+	public Parqueo() {
+		
+	}
 	public int getCosto() {
 		return costo;
 	}

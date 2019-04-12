@@ -17,6 +17,15 @@ public class ParentEntity {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 
+	public ParentEntity() {
+		super();
+	}
+
+	public ParentEntity(Long id) {
+		super();
+		this.id = id;
+	}
+
 	public Long getId() {
 		return id;
 	}
