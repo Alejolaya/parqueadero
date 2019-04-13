@@ -59,25 +59,56 @@ public class ParqueoServiceImp implements ParqueoService {
 		Long difEnMinutos = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
 		DecimalFormat df = new DecimalFormat("##");
 		df.setRoundingMode(RoundingMode.DOWN);
+
+		Long diasAPagar = calcularDiasAPagar(difEnHoras);
+
+		Long horasRestantes = calcularHorasAPagar(difEnHoras, difEnMinutos);
+
+		Long totalAPagar = calcularTotalApagar(vehiculo, parqueadero, diasAPagar, horasRestantes);
+
+		parqueo.setFechaSalida(fechaActual);
+		parqueo.setCosto(Integer.valueOf(df.format(totalAPagar)));
+
+		return parqueo;
+	}
+	
+	@Override
+	public Long calcularDiasAPagar(Long difEnHoras) {
+		DecimalFormat df = new DecimalFormat("##");
+		
 		Long diasAPagar = Long.valueOf(df.format(difEnHoras / 24));
+		
+		if (difEnHoras % 24 >= 9) {
+			diasAPagar++;
+			
+		}
+		return diasAPagar;
+	}
+	
+	@Override
+	public Long calcularHorasAPagar(Long difEnHoras, Long difEnMinutos) {
+		DecimalFormat df = new DecimalFormat("##");
 		Long horasRestantes = difEnHoras % 24;
 		if (horasRestantes >= 9) {
-			diasAPagar++;
 			horasRestantes = 0L;
 		} else {
 			df.setRoundingMode(RoundingMode.UP);
 			horasRestantes = Long.valueOf(df.format(horasRestantes));
 		}
-		
-		if(difEnMinutos<60) {
+
+		if (difEnMinutos < 60) {
 			horasRestantes++;
-		}else {
+		} else {
 			Long minutosRestantes = difEnMinutos % 60;
-			if(minutosRestantes>0) {
+			if (minutosRestantes > 0) {
 				horasRestantes++;
 			}
 		}
-		
+		return horasRestantes;
+	}
+
+	@Override
+	public Long calcularTotalApagar(Vehiculo vehiculo, Parqueadero parqueadero, Long diasAPagar, Long horasRestantes) {
 		Long horasAPagar = horasRestantes;
 		Long totalAPagar;
 		if ("M".equalsIgnoreCase(vehiculo.getTipoVehiculo())) {
@@ -91,10 +122,7 @@ public class ParqueoServiceImp implements ParqueoService {
 		} else {
 			totalAPagar = diasAPagar * parqueadero.getCarroDia() + horasAPagar * parqueadero.getCarroHora();
 		}
-		parqueo.setFechaSalida(fechaActual);
-		parqueo.setCosto(Integer.valueOf(df.format(totalAPagar)));
-
-		return parqueo;
+		return totalAPagar;
 	}
 
 	@Override

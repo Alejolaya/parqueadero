@@ -1,7 +1,6 @@
 package com.ceiba.parqueadero;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
 
 import org.json.JSONObject;
 import org.junit.Before;
