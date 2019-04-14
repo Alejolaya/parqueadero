@@ -27,32 +27,28 @@ public class RegistrarSalidaController {
 	protected ObjectMapper mapper;
 
 	@PostMapping(value = "/RegistrarSalida")
-	public RestResponse registrarSalida(@RequestBody String ParqueoJson) {
+	public RestResponse registrarSalida(@RequestBody String parqueoJson) {
 		this.mapper = new ObjectMapper();
-		String mensaje= "";
+
 		try {
-			Parqueo parqueo = this.mapper.readValue(ParqueoJson, Parqueo.class);
-			Parqueo parqueoID = parqueoService.findByPlacaAndFechaSalida(parqueo.getPlaca(),null);
-			if(parqueoID == null) {
-				throw new Exception("No se encuentra la placa:"+" "+parqueo.getPlaca());
+			Parqueo parqueo = parqueoService.convertirJsonAParqueo(parqueoJson);
+			Parqueo parqueoID = parqueoService.findByPlacaAndFechaSalida(parqueo.getPlaca(), null);
+			if (parqueoID == null) {
+				throw new Exception("No se encuentra la placa:" + " " + parqueo.getPlaca());
 			}
-			
+
 			parqueo = parqueoService.pagar(parqueoID);
 			parqueoService.save(parqueo);
-			
+
 			parqueaderoService.liberarCelda(parqueo.getPlaca());
-			
-			//Calcular monto si es carro cobrarle 
-			//Traer tarifa 
-			//validar si es moto cobrarle y es alto cilindraje
-			
-	
-			return new RestResponse(HttpStatus.ACCEPTED.value(), "Vehiculo con Placa: "+parqueo.getPlaca()+" paga: $"+parqueo.getCosto());
-			
-		}catch (Exception e) {
-			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(), "NO FUE POSIBLE REALIZAR PAGO: "+" "+e.getMessage());
+
+			return new RestResponse(HttpStatus.ACCEPTED.value(),
+					"Vehiculo con Placa: " + parqueo.getPlaca() + " paga: $" + parqueo.getCosto());
+
+		} catch (Exception e) {
+			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
+					"NO FUE POSIBLE REALIZAR PAGO: " + " " + e.getMessage());
 		}
 
-		
 	}
 }

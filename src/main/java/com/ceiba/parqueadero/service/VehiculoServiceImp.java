@@ -1,14 +1,10 @@
 package com.ceiba.parqueadero.service;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ceiba.parqueadero.dao.VehiculoRepository;
 import com.ceiba.parqueadero.model.Vehiculo;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -41,7 +37,12 @@ public class VehiculoServiceImp implements VehiculoService {
 	public Vehiculo convertirJsonAVehiculo(String vehiculoJson) throws Exception {
 		this.mapper = new ObjectMapper();
 		
+		
+		
 			Vehiculo vehiculo = this.mapper.readValue(vehiculoJson, Vehiculo.class);
+			
+			this.validarVehiculo(vehiculo);
+			
 			//remover espacio
 			String placa = vehiculo.getPlaca().trim();
 			placa = placa.replaceAll("//s", "");
@@ -49,20 +50,25 @@ public class VehiculoServiceImp implements VehiculoService {
 			placa = placa.toUpperCase();
 			vehiculo.setPlaca(placa);
 			
-			if (vehiculo.getPlaca() == null) {
-				throw new Exception("La campo Placa no puede estar vacio");
-			}
-			if (vehiculo.getTipoVehiculo() == null) {
-				throw new Exception("La campo Tipo Vehiculo no puede estar vacio");
-			}
-			if ("M".equalsIgnoreCase(vehiculo.getTipoVehiculo()) && vehiculo.getCilindraje() == 0) {
-				throw new Exception("Si es una moto CC no puede estar vacio");
-			}		
+		
 			
 			return vehiculo;	
 			
 		
 		
+	}
+	
+	@Override
+	public void validarVehiculo(Vehiculo vehiculo) throws Exception {
+		if (vehiculo.getPlaca() == null) {
+			throw new Exception("La campo Placa no puede estar vacio");
+		}
+		if (vehiculo.getTipoVehiculo() == null) {
+			throw new Exception("La campo Tipo Vehiculo no puede estar vacio");
+		}
+		if ("M".equalsIgnoreCase(vehiculo.getTipoVehiculo()) && vehiculo.getCilindraje() == 0) {
+			throw new Exception("Si es una moto CC no puede estar vacio");
+		}
 	}
 
 }

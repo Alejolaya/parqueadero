@@ -1,5 +1,6 @@
 package com.ceiba.parqueadero.service;
 
+import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -12,6 +13,9 @@ import com.ceiba.parqueadero.dao.ParqueoRepository;
 import com.ceiba.parqueadero.model.Parqueadero;
 import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.model.Vehiculo;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ParqueoServiceImp implements ParqueoService {
@@ -24,6 +28,8 @@ public class ParqueoServiceImp implements ParqueoService {
 
 	@Autowired
 	protected ParqueaderoService parqueaderoService;
+	
+	protected ObjectMapper mapper;
 
 	@Override
 	public Parqueo ingresar(Parqueo parqueo) {
@@ -142,5 +148,27 @@ public class ParqueoServiceImp implements ParqueoService {
 
 		return parqueoRepository.save(parqueo);
 	}
+
+	@Override
+	public Parqueo convertirJsonAParqueo(String parqueoJson) throws Exception {
+		this.mapper = new ObjectMapper();
+		
+		Parqueo parqueo = this.mapper.readValue(parqueoJson, Parqueo.class);
+		//remover espacios
+		String placa = parqueo.getPlaca().trim();
+		placa=placa.replaceAll("//s", "");
+		//Convertir la placa a mayuscula
+		
+		placa = placa.toUpperCase();
+		parqueo.setPlaca(placa);
+		//convertir placa a mayuscula
+		placa = placa.toUpperCase();
+		parqueo.setPlaca(placa);
+		
+		
+		return parqueo;
+	}
+	
+	
 
 }

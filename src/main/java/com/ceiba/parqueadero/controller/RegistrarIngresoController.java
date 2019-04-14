@@ -45,7 +45,7 @@ public class RegistrarIngresoController {
 			try {
 //				Vehiculo vehiculo = this.mapper.readValue(vehiculoJson, Vehiculo.class);
 				Vehiculo vehiculo = vehiculoService.convertirJsonAVehiculo(vehiculoJson);
-				validarVehiculo(vehiculo);
+				//validarVehiculo(vehiculo);
 
 				validarPlacaYDiaSemana(vehiculo);
 				
@@ -109,16 +109,16 @@ public class RegistrarIngresoController {
 
 	}
 
-	private void validarVehiculo(Vehiculo vehiculo) throws Exception {
-		if (vehiculo.getPlaca() == null) {
-			throw new Exception("La campo Placa no puede estar vacio");
-		}
-		if (vehiculo.getTipoVehiculo() == null) {
-			throw new Exception("La campo Tipo Vehiculo no puede estar vacio");
-		}
-		if ("M".equalsIgnoreCase(vehiculo.getTipoVehiculo()) && vehiculo.getCilindraje() == 0) {
-			throw new Exception("Si es una moto CC no puede estar vacio");
-		}
-	}
+//	private void validarVehiculo(Vehiculo vehiculo) throws Exception {
+//		if (vehiculo.getPlaca() == null) {
+//			throw new Exception("La campo Placa no puede estar vacio");
+//		}
+//		if (vehiculo.getTipoVehiculo() == null) {
+//			throw new Exception("La campo Tipo Vehiculo no puede estar vacio");
+//		}
+//		if ("M".equalsIgnoreCase(vehiculo.getTipoVehiculo()) && vehiculo.getCilindraje() == 0) {
+//			throw new Exception("Si es una moto CC no puede estar vacio");
+//		}
+//	}
 
 }

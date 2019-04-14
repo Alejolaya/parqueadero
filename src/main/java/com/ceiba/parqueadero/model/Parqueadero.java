@@ -46,6 +46,10 @@ public class Parqueadero extends ParentEntity {
 		this.celdasCarro = celdasCarro;
 	}
 
+	public Parqueadero() {
+		super();
+	}
+
 	public int getMotoHora() {
 		return motoHora;
 	}
