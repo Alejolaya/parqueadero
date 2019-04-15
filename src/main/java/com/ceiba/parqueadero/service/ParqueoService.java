@@ -83,4 +83,12 @@ public interface ParqueoService {
 	 * @throws Exception
 	 */
 	Parqueo convertirJsonAParqueo(String parqueoJson) throws Exception;
+	
+	/**
+	 * Calcular la diferencia en milisegundos entre la fecha de ingreso y la de salida
+	 * @param fechaActual
+	 * @param fechaIngreso
+	 * @return
+	 */
+	Long calcularDiferenciaEnMiliSeg(Date fechaActual, Date fechaIngreso);
 }

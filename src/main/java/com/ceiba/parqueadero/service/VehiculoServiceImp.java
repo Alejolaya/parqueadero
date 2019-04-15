@@ -1,9 +1,15 @@
 package com.ceiba.parqueadero.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ceiba.parqueadero.dao.VehiculoRepository;
+import com.ceiba.parqueadero.model.Parqueadero;
+import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.model.Vehiculo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -12,6 +18,9 @@ public class VehiculoServiceImp implements VehiculoService {
 	
 	@Autowired
 	protected VehiculoRepository vehiculoRepository;
+	
+	@Autowired
+	protected ParqueoService parqueoService;
 	
 	protected ObjectMapper mapper;
 
@@ -69,6 +78,39 @@ public class VehiculoServiceImp implements VehiculoService {
 		if ("M".equalsIgnoreCase(vehiculo.getTipoVehiculo()) && vehiculo.getCilindraje() == 0) {
 			throw new Exception("Si es una moto CC no puede estar vacio");
 		}
+	}
+
+	@Override
+	public void validarPlacaYDiaSemana(Vehiculo vehiculo, Date date) throws Exception {
+		
+		DateFormat formatoDia = new SimpleDateFormat("EEEE");				
+		String diaDeLaSemana = formatoDia.format(date);
+		
+		if(!"SUNDAY".equalsIgnoreCase(diaDeLaSemana) && !"MONDAY".equalsIgnoreCase(diaDeLaSemana)&& 'A'==vehiculo.getPlaca().charAt(0)) {
+			throw new Exception("hoy las placas que comienzan con A no pueden ingresar");
+		}
+	}
+
+	@Override
+	public void validarVehiculoEnParqueadero(Vehiculo vehiculo) throws Exception {
+		Parqueo parqueoID = parqueoService.findByPlacaAndFechaSalida(vehiculo.getPlaca(),null);
+		if (parqueoID != null) {
+			if (parqueoID.getFechaSalida() == null) {
+				throw new Exception("Vehiculo con la placa ingresada aun no ha reportado salida");
+			}
+		}
+		
+	}
+
+	@Override
+	public void validarCeldasDisponibles(Parqueadero parqueadero, Vehiculo vehiculo) throws Exception {
+		if ("M".equalsIgnoreCase(vehiculo.getTipoVehiculo()) && parqueadero.getCeldasMoto() <= 0) {
+			throw new Exception("No hay celdas de moto disponibles");
+		}
+		if ("C".equalsIgnoreCase(vehiculo.getTipoVehiculo()) && parqueadero.getCeldasCarro() <= 0) {
+			throw new Exception("No hay celdas de carro disponibles");
+		}
+		
 	}
 
 }

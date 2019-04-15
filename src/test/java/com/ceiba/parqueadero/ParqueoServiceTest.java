@@ -2,7 +2,6 @@ package com.ceiba.parqueadero;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,6 +29,22 @@ public class ParqueoServiceTest {
 	
 	
 	////////////////////////////////////////////PRUEBAS DE CALCULO DE DIAS////////////////////////
+	@Test
+	public final void testCalcularDiferenciaMiliSeg() throws Exception {
+		SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String fechaIngresoStr = HORAINGRESO;
+		String fechaSalidaStr = "2019-01-01 00:00:01";
+		Date fechaIngreso = formatoFecha.parse(fechaIngresoStr);
+		Date fechaSalida = formatoFecha.parse(fechaSalidaStr);
+		
+		long difInMilis= parqueoService.calcularDiferenciaEnMiliSeg(fechaSalida, fechaIngreso);
+		
+		assertThat(difInMilis).isEqualTo(1000);
+		
+	}
+	
+	
+	
 	@Test
 	public final void testCalcularDiasAPagar() {
 		

@@ -37,20 +37,18 @@ public class RegistrarIngresoController {
 	public RestResponse registrarIngreso(@RequestBody String vehiculoJson) throws Exception {
 
 		this.mapper = new ObjectMapper();
+		Date fechaActual= new Date();
+		
 		Parqueadero parqueadero = parqueaderoService.findById(1L);
 
 		if (parqueadero.getCeldasCarro() <= 0 && parqueadero.getCeldasMoto() <= 0) {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(), "No hay celdas disponibles");
 		} else {
 			try {
-//				Vehiculo vehiculo = this.mapper.readValue(vehiculoJson, Vehiculo.class);
 				Vehiculo vehiculo = vehiculoService.convertirJsonAVehiculo(vehiculoJson);
-				//validarVehiculo(vehiculo);
-
-				validarPlacaYDiaSemana(vehiculo);
-				
-				validarCeldasDisponibles(parqueadero, vehiculo);
-				validarVehiculoEnParqueadero(vehiculo);
+				vehiculoService.validarPlacaYDiaSemana(vehiculo, fechaActual);
+				vehiculoService.validarCeldasDisponibles(parqueadero, vehiculo);
+				vehiculoService.validarVehiculoEnParqueadero(vehiculo);
 				Vehiculo vehiculoID = vehiculoService.findByPlaca(vehiculo);
 				Parqueo parqueo = new Parqueo();
 				if (vehiculoID == null) {
@@ -80,45 +78,8 @@ public class RegistrarIngresoController {
 
 	}
 
-	private void validarPlacaYDiaSemana(Vehiculo vehiculo) throws Exception {
-		Date date  = new Date();
-		DateFormat formatoDia = new SimpleDateFormat("EEEE");				
-		String diaDeLaSemana = formatoDia.format(date);
-		
-		if(!"SUNDAY".equalsIgnoreCase(diaDeLaSemana) && !"MONDAY".equalsIgnoreCase(diaDeLaSemana)&& 'A'==vehiculo.getPlaca().charAt(0)) {
-			throw new Exception("hoy las placas que comienzan con A no pueden ingresar");
-		}
-	}
 
-	private void validarVehiculoEnParqueadero(Vehiculo vehiculo) throws Exception {
-		Parqueo parqueoID = parqueoService.findByPlacaAndFechaSalida(vehiculo.getPlaca(),null);
-		if (parqueoID != null) {
-			if (parqueoID.getFechaSalida() == null) {
-				throw new Exception("Vehiculo con la placa ingresada aun no ha reportado salida");
-			}
-		}
-	}
 
-	private void validarCeldasDisponibles(Parqueadero parqueadero, Vehiculo vehiculo) throws Exception {
-		if ("M".equalsIgnoreCase(vehiculo.getTipoVehiculo()) && parqueadero.getCeldasMoto() <= 0) {
-			throw new Exception("No hay celdas de moto disponibles");
-		}
-		if ("C".equalsIgnoreCase(vehiculo.getTipoVehiculo()) && parqueadero.getCeldasCarro() <= 0) {
-			throw new Exception("No hay celdas de carro disponibles");
-		}
 
-	}
-
-//	private void validarVehiculo(Vehiculo vehiculo) throws Exception {
-//		if (vehiculo.getPlaca() == null) {
-//			throw new Exception("La campo Placa no puede estar vacio");
-//		}
-//		if (vehiculo.getTipoVehiculo() == null) {
-//			throw new Exception("La campo Tipo Vehiculo no puede estar vacio");
-//		}
-//		if ("M".equalsIgnoreCase(vehiculo.getTipoVehiculo()) && vehiculo.getCilindraje() == 0) {
-//			throw new Exception("Si es una moto CC no puede estar vacio");
-//		}
-//	}
 
 }

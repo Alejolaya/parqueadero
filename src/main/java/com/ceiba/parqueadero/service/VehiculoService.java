@@ -1,5 +1,8 @@
 package com.ceiba.parqueadero.service;
 
+import java.util.Date;
+
+import com.ceiba.parqueadero.model.Parqueadero;
 import com.ceiba.parqueadero.model.Vehiculo;
 
 public interface VehiculoService {
@@ -31,4 +34,12 @@ public interface VehiculoService {
 	Vehiculo convertirJsonAVehiculo(String vehiculoJson) throws Exception;
 	
 	void validarVehiculo(Vehiculo vehiculo) throws Exception;
+	
+	void validarPlacaYDiaSemana(Vehiculo vehiculo, Date date) throws Exception;
+	
+	void validarVehiculoEnParqueadero(Vehiculo vehiculo) throws Exception;
+	
+	void validarCeldasDisponibles(Parqueadero parqueadero, Vehiculo vehiculo) throws Exception;
+	
+	
 }

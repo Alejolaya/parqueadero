@@ -1,6 +1,5 @@
 package com.ceiba.parqueadero.service;
 
-import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -13,8 +12,6 @@ import com.ceiba.parqueadero.dao.ParqueoRepository;
 import com.ceiba.parqueadero.model.Parqueadero;
 import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.model.Vehiculo;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -60,7 +57,8 @@ public class ParqueoServiceImp implements ParqueoService {
 
 		// Calcular diferencia de fechas
 		Date fechaActual = new Date();
-		Long diffInMillies =fechaActual.getTime() - parqueo.getFechaIngreso().getTime();
+		Date fechaIngreso = parqueo.getFechaIngreso();
+		Long diffInMillies = calcularDiferenciaEnMiliSeg(fechaActual, fechaIngreso);
 		Long difEnHoras = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 		Long difEnMinutos = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
 		DecimalFormat df = new DecimalFormat("##");
@@ -76,6 +74,12 @@ public class ParqueoServiceImp implements ParqueoService {
 		parqueo.setCosto(Integer.valueOf(df.format(totalAPagar)));
 
 		return parqueo;
+	}
+
+	@Override
+	public Long calcularDiferenciaEnMiliSeg(Date fechaActual, Date fechaIngreso) {
+		return fechaActual.getTime() - fechaIngreso.getTime();
+		
 	}
 	
 	@Override
