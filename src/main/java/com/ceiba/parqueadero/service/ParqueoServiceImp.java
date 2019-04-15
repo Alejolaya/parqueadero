@@ -60,7 +60,7 @@ public class ParqueoServiceImp implements ParqueoService {
 
 		// Calcular diferencia de fechas
 		Date fechaActual = new Date();
-		Long diffInMillies = parqueo.getFechaIngreso().getTime() - fechaActual.getTime();
+		Long diffInMillies =fechaActual.getTime() - parqueo.getFechaIngreso().getTime();
 		Long difEnHoras = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 		Long difEnMinutos = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
 		DecimalFormat df = new DecimalFormat("##");

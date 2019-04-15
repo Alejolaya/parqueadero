@@ -42,7 +42,7 @@ public class RegistrarSalidaController {
 
 			parqueaderoService.liberarCelda(parqueo.getPlaca());
 
-			return new RestResponse(HttpStatus.ACCEPTED.value(),
+			return new RestResponse(HttpStatus.OK.value(),
 					"Vehiculo con Placa: " + parqueo.getPlaca() + " paga: $" + parqueo.getCosto());
 
 		} catch (Exception e) {
