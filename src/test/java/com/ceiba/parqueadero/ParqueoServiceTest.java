@@ -7,10 +7,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.ceiba.parqueadero.model.Parqueadero;
+import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.model.Vehiculo;
 import com.ceiba.parqueadero.service.ParqueoService;
 import com.ceiba.parqueadero.service.ParqueoServiceImp;
@@ -18,6 +20,7 @@ import com.ceiba.parqueadero.service.ParqueoServiceImp;
 public class ParqueoServiceTest {
 
 	
+	private static final String ABC123 = "ABC123";
 	private static final String HORAINGRESO = "2019-01-01 00:00:00";
 	private ParqueoService parqueoService;
 
@@ -25,6 +28,25 @@ public class ParqueoServiceTest {
 	@Before
 	public void setUp() {
 		parqueoService = new ParqueoServiceImp();
+	}
+	
+	
+	
+	////////////////////////////////////////////CONVERTIR JSON A PARQUEO//////////////////////////
+	@Test
+	public void testConvertirJsonAParqueo() throws Exception{
+		JSONObject parqueoJson = new JSONObject();
+		parqueoJson.put("placa", "abc123 ");
+		parqueoJson.put("fechaIngreso", null);
+		parqueoJson.put("fechaSalida", null);
+		parqueoJson.put("parqueadero", 0);
+		parqueoJson.put("costo", 0);
+		
+		Parqueo parqueo = parqueoService.convertirJsonAParqueo(parqueoJson.toString());
+
+		assertThat(ABC123).isEqualTo(parqueo.getPlaca());
+
+		
 	}
 	
 	
@@ -174,7 +196,7 @@ public class ParqueoServiceTest {
 	/////////////////////////////////////////PRUEBA DE TOTAL A PAGAR///////////////////////////////
 	@Test
 	public final void testCalcularTotalAPagarSiEsMotoBajoCc() {
-		Vehiculo vehiculo = new Vehiculo(1L,"ABC123","M",100);
+		Vehiculo vehiculo = new Vehiculo(1L,ABC123,"M",100);
 		Parqueadero parqueadero = new Parqueadero(1L,500,4000,2000,1000,8000,10,20);
 		Long diasAPagar = 0L;
 		Long horasRestantes = 0L;
@@ -188,7 +210,7 @@ public class ParqueoServiceTest {
 
 	@Test
 	public final void testCalcularTotalAPagarSiEsMotoAltoCc() {
-		Vehiculo vehiculo = new Vehiculo(1L,"ABC123","M",500);
+		Vehiculo vehiculo = new Vehiculo(1L,ABC123,"M",500);
 		Parqueadero parqueadero = new Parqueadero(1L,500,4000,2000,1000,8000,10,20);
 		Long diasAPagar = 0L;
 		Long horasRestantes = 0L;
@@ -202,7 +224,7 @@ public class ParqueoServiceTest {
 	
 	@Test
 	public final void testCalcularTotalAPagarSiEsCarro() {
-		Vehiculo vehiculo = new Vehiculo(1L,"ABC123","C",500);
+		Vehiculo vehiculo = new Vehiculo(1L,ABC123,"C",500);
 		Parqueadero parqueadero = new Parqueadero(1L,500,4000,2000,1000,8000,10,20);
 		Long diasAPagar = 0L;
 		Long horasRestantes = 0L;
