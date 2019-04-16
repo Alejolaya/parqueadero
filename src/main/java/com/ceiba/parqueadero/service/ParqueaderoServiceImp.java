@@ -45,7 +45,7 @@ public class ParqueaderoServiceImp implements ParqueaderoService {
 	@Override
 	public Integer disminuirCeldaCarroDisponible(Long id) {
 		Parqueadero parqueadero = parqueaderoRespository.findOne(id);
-		parqueadero.setCeldasMoto(parqueadero.getCeldasCarro()-1);
+		parqueadero.setCeldasCarro(parqueadero.getCeldasCarro()-1);
 		parqueadero = parqueaderoRespository.save(parqueadero);
 		return parqueadero.getCeldasCarro();
 	}

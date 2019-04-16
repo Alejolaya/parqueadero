@@ -43,7 +43,7 @@ public class VehiculoServiceImp implements VehiculoService {
 	}
 
 	@Override
-	public Vehiculo convertirJsonAVehiculo(String vehiculoJson) throws Exception {
+	public Vehiculo convertirYValidarJsonAVehiculo(String vehiculoJson) throws Exception {
 		this.mapper = new ObjectMapper();
 		
 		

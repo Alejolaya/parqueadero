@@ -1,29 +1,21 @@
-package com.ceiba.parqueadero.controller;
+package com.ceiba.parqueadero.service;
 
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import com.ceiba.parqueadero.model.Parqueadero;
 import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.model.Vehiculo;
-import com.ceiba.parqueadero.service.ParqueaderoService;
-import com.ceiba.parqueadero.service.ParqueoService;
-import com.ceiba.parqueadero.service.RegistrarIngresoService;
-import com.ceiba.parqueadero.service.VehiculoService;
 import com.ceiba.parqueadero.util.RestResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@RestController
-public class RegistrarIngresoController {
-	
-	@Autowired
-	protected RegistrarIngresoService registrarIngresoService;
-	
+
+@Service
+public class RegistrarIngresoServiceImp implements RegistrarIngresoService {
+
 	@Autowired
 	protected VehiculoService vehiculoService;
 
@@ -35,18 +27,11 @@ public class RegistrarIngresoController {
 
 	protected ObjectMapper mapper;
 
-	@PostMapping(value = "/RegistrarIngreso")
-	public RestResponse registrarIngreso(@RequestBody String vehiculoJson) throws Exception {
-
-		//return registrarIngresoVehiculo(vehiculoJson);
-		return registrarIngresoService.registrarIngresoVehiculo(vehiculoJson);
-
-	}
-
-	private RestResponse registrarIngresoVehiculo(String vehiculoJson) {
+	@Override
+	public RestResponse registrarIngresoVehiculo(String vehiculoJson) {
 		this.mapper = new ObjectMapper();
-		Date fechaActual= new Date();
-		
+		Date fechaActual = new Date();
+
 		Parqueadero parqueadero = parqueaderoService.findById(1L);
 
 		if (parqueadero.getCeldasCarro() <= 0 && parqueadero.getCeldasMoto() <= 0) {
@@ -84,9 +69,5 @@ public class RegistrarIngresoController {
 			}
 		}
 	}
-
-
-
-
 
 }

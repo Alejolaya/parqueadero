@@ -31,7 +31,7 @@ public interface VehiculoService {
 	 * @param vehiculoJson
 	 * @return
 	 */
-	Vehiculo convertirJsonAVehiculo(String vehiculoJson) throws Exception;
+	Vehiculo convertirYValidarJsonAVehiculo(String vehiculoJson) throws Exception;
 	
 	void validarVehiculo(Vehiculo vehiculo) throws Exception;
 	

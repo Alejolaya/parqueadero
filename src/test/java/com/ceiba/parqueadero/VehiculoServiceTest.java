@@ -9,7 +9,6 @@ import java.util.Date;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.ceiba.parqueadero.model.Parqueadero;
@@ -43,7 +42,7 @@ public class VehiculoServiceTest {
 		vehiculoJson.put("tipoVehiculo", "M");
 		vehiculoJson.put("cilindraje", 1000);
 		
-		Vehiculo vehiculo =	vehiculoService.convertirJsonAVehiculo(vehiculoJson.toString());
+		Vehiculo vehiculo =	vehiculoService.convertirYValidarJsonAVehiculo(vehiculoJson.toString());
 		
 		Vehiculo vehiculoEsperado = new Vehiculo();
 		vehiculoEsperado.setPlaca("ABC123");
@@ -107,7 +106,7 @@ public class VehiculoServiceTest {
 	///////////////////////////////////////VALIDAR PLACA Y DIA DE LA SEMANA//////////////////////////////////////
 	
 	@Test
-	public void TestvalidarPlacaYDiaSemanaDomingo() throws Exception{
+	public void testValidarPlacaYDiaSemanaDomingo() throws Exception{
 		SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String fechaSalidaStr = "2019-04-14 00:00:01";//Domingo 14 de abril de 2019
 		Date fechaDomingo = formatoFecha.parse(fechaSalidaStr);
@@ -117,7 +116,7 @@ public class VehiculoServiceTest {
 		
 	}
 	@Test
-	public void TestvalidarPlacaYDiaSemanaLunes() throws Exception{
+	public void testValidarPlacaYDiaSemanaLunes() throws Exception{
 		SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String fechaSalidaStr = "2019-04-15 00:00:01";//Lunes 15 de abril de 2019
 		Date fechaDomingo = formatoFecha.parse(fechaSalidaStr);
@@ -126,5 +125,14 @@ public class VehiculoServiceTest {
 		vehiculoService.validarPlacaYDiaSemana(vehiculo, fechaDomingo);
 	}
 	
+	@Test(expected = Exception.class)
+	public void testValidarPlacaYDiaSemanaMartes() throws Exception{
+		SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String fechaSalidaStr = "2019-04-16 00:00:01";//Martes 15 de abril de 2019
+		Date fechaDomingo = formatoFecha.parse(fechaSalidaStr);
+		Vehiculo vehiculo = new Vehiculo(1L,"ABC123","M",100);
+		
+		vehiculoService.validarPlacaYDiaSemana(vehiculo, fechaDomingo);
+	}
 
 }
