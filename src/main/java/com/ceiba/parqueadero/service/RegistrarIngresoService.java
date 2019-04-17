@@ -16,16 +16,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class RegistrarIngresoService {
 
-	@Autowired
+
 	protected VehiculoService vehiculoService;
 
-	@Autowired
+
 	protected ParqueoService parqueoService;
 
-	@Autowired
+
 	protected ParqueaderoService parqueaderoService;
 
 	protected ObjectMapper mapper;
+
+	@Autowired
+	public RegistrarIngresoService(VehiculoService vehiculoService, ParqueoService parqueoService,
+			ParqueaderoService parqueaderoService, ObjectMapper mapper) {
+		
+		this.vehiculoService = vehiculoService;
+		this.parqueoService = parqueoService;
+		this.parqueaderoService = parqueaderoService;
+		this.mapper = mapper;
+	}
 
 
 	public RestResponse registrarIngresoVehiculo(String vehiculoJson) {
