@@ -1,4 +1,4 @@
-package com.ceiba.parqueadero.dao;
+package com.ceiba.parqueadero.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

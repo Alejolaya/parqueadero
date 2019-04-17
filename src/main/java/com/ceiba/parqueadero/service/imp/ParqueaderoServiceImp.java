@@ -3,9 +3,9 @@ package com.ceiba.parqueadero.service.imp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ceiba.parqueadero.dao.ParqueaderoRepository;
 import com.ceiba.parqueadero.model.Parqueadero;
 import com.ceiba.parqueadero.model.Vehiculo;
+import com.ceiba.parqueadero.repository.ParqueaderoRepository;
 import com.ceiba.parqueadero.service.ParqueaderoService;
 import com.ceiba.parqueadero.service.VehiculoService;
 

@@ -8,16 +8,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.ceiba.parqueadero.dao.ParqueaderoRepository;
-import com.ceiba.parqueadero.dao.ParqueoRepository;
-import com.ceiba.parqueadero.dao.VehiculoRepository;
-import com.ceiba.parqueadero.model.Parqueadero;
 import com.ceiba.parqueadero.model.Vehiculo;
+import com.ceiba.parqueadero.repository.ParqueaderoRepository;
+import com.ceiba.parqueadero.repository.ParqueoRepository;
+import com.ceiba.parqueadero.repository.VehiculoRepository;
 import com.ceiba.parqueadero.service.ParqueaderoService;
 import com.ceiba.parqueadero.service.RegistrarIngresoService;
+
 
 
 @SpringBootTest
