@@ -26,7 +26,7 @@ public class RegistrarSalidaController {
 
 	protected ObjectMapper mapper;
 
-	@PostMapping(value = "/RegistrarSalida")
+	@PostMapping(value = "/salida-vehiculos")
 	public RestResponse registrarSalida(@RequestBody String parqueoJson) {
 		this.mapper = new ObjectMapper();
 

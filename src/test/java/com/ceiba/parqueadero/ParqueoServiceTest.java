@@ -15,7 +15,7 @@ import com.ceiba.parqueadero.model.Parqueadero;
 import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.model.Vehiculo;
 import com.ceiba.parqueadero.service.ParqueoService;
-import com.ceiba.parqueadero.service.ParqueoServiceImp;
+import com.ceiba.parqueadero.service.imp.ParqueoServiceImp;
 
 public class ParqueoServiceTest {
 

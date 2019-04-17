@@ -1,4 +1,4 @@
-package com.ceiba.parqueadero.service;
+package com.ceiba.parqueadero.service.imp;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -12,6 +12,9 @@ import com.ceiba.parqueadero.dao.ParqueoRepository;
 import com.ceiba.parqueadero.model.Parqueadero;
 import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.model.Vehiculo;
+import com.ceiba.parqueadero.service.ParqueaderoService;
+import com.ceiba.parqueadero.service.ParqueoService;
+import com.ceiba.parqueadero.service.VehiculoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service

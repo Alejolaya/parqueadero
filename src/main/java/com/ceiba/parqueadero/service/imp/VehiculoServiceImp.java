@@ -1,4 +1,4 @@
-package com.ceiba.parqueadero.service;
+package com.ceiba.parqueadero.service.imp;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -11,6 +11,8 @@ import com.ceiba.parqueadero.dao.VehiculoRepository;
 import com.ceiba.parqueadero.model.Parqueadero;
 import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.model.Vehiculo;
+import com.ceiba.parqueadero.service.ParqueoService;
+import com.ceiba.parqueadero.service.VehiculoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
