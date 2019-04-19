@@ -1,17 +1,15 @@
 package com.ceiba.parqueadero.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.service.ParqueaderoService;
 import com.ceiba.parqueadero.service.ParqueoService;
 import com.ceiba.parqueadero.service.RegistrarSalidaService;
 import com.ceiba.parqueadero.service.VehiculoService;
-import com.ceiba.parqueadero.util.RestResponse;
+import com.ceiba.parqueadero.util.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
@@ -33,7 +31,7 @@ public class RegistrarSalidaController {
 	protected ObjectMapper mapper;
 
 	@PostMapping(value = "/salida-vehiculos")
-	public RestResponse registrarSalida(@RequestBody String parqueoJson) {
+	public Response registrarSalida(@RequestBody String parqueoJson) {
 		
 		return registrarSalidaService.registrarSalida(parqueoJson);
 

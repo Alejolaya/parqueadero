@@ -11,6 +11,7 @@ import javax.persistence.Table;
 @Access(AccessType.FIELD)
 public class Parqueadero extends ParentEntity {
 
+	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "moto_hora", nullable = false)

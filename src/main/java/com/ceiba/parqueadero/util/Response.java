@@ -1,17 +1,17 @@
 package com.ceiba.parqueadero.util;
 
-public class RestResponse {
+public class Response {
 	
 	private Integer responseCode;
 	private String message;
 
-	public RestResponse(Integer responseCode) {
-		super();
+	public Response(Integer responseCode) {
+		
 		this.responseCode = responseCode;
 	}
 
-	public RestResponse(Integer responseCode, String message) {
-		super();
+	public Response(Integer responseCode, String message) {
+		
 		this.responseCode = responseCode;
 		this.message = message;
 	}

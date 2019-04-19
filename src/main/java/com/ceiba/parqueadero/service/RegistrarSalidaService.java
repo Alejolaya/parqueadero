@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ceiba.parqueadero.model.Parqueo;
-import com.ceiba.parqueadero.util.RestResponse;
+import com.ceiba.parqueadero.util.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -25,7 +25,7 @@ public class RegistrarSalidaService {
 		this.parqueaderoService = parqueaderoService;
 	}
 
-	public RestResponse registrarSalida(String parqueoJson) {
+	public Response registrarSalida(String parqueoJson) {
 		this.mapper = new ObjectMapper();
 		try {
 			Parqueo parqueo = parqueoService.convertirJsonAParqueo(parqueoJson);
@@ -39,11 +39,11 @@ public class RegistrarSalidaService {
 
 			parqueaderoService.liberarCelda(parqueo.getPlaca());
 
-			return new RestResponse(HttpStatus.OK.value(),
+			return new Response(HttpStatus.OK.value(),
 					"Vehiculo con Placa: " + parqueo.getPlaca() + " paga: $" + parqueo.getCosto());
 
 		} catch (Exception e) {
-			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
+			return new Response(HttpStatus.NOT_ACCEPTABLE.value(),
 					"NO FUE POSIBLE REALIZAR PAGO: " + " " + e.getMessage());
 		}
 		

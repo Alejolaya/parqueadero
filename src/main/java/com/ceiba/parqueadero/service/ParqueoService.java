@@ -1,4 +1,4 @@
-package com.ceiba.parqueadero.service.imp;
+package com.ceiba.parqueadero.service;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -12,26 +12,32 @@ import com.ceiba.parqueadero.model.Parqueadero;
 import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.model.Vehiculo;
 import com.ceiba.parqueadero.repository.ParqueoRepository;
-import com.ceiba.parqueadero.service.ParqueaderoService;
-import com.ceiba.parqueadero.service.ParqueoService;
-import com.ceiba.parqueadero.service.VehiculoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class ParqueoServiceImp implements ParqueoService {
+public class ParqueoService  {
 
-	@Autowired
+	
 	protected ParqueoRepository parqueoRepository;
 
-	@Autowired
+	
 	protected VehiculoService vehiculoService;
 
-	@Autowired
 	protected ParqueaderoService parqueaderoService;
 	
-	protected ObjectMapper mapper;
+//	protected ObjectMapper mapper;
 
-	@Override
+	@Autowired
+	public ParqueoService(ParqueoRepository parqueoRepository, VehiculoService vehiculoService,
+			ParqueaderoService parqueaderoService) {
+	
+		this.parqueoRepository = parqueoRepository;
+		this.vehiculoService = vehiculoService;
+		this.parqueaderoService = parqueaderoService;
+//		this.mapper = mapper;
+	}
+
+	
 	public Parqueo ingresar(Parqueo parqueo) {
 
 		// obtener tiempo actual
@@ -45,7 +51,7 @@ public class ParqueoServiceImp implements ParqueoService {
 		return parqueoRepository.save(parqueo);
 	}
 
-	@Override
+	
 	public Parqueo pagar(Parqueo parqueo) {
 		// obtener tiempo actual
 		// calcular numero de horas
@@ -79,13 +85,13 @@ public class ParqueoServiceImp implements ParqueoService {
 		return parqueo;
 	}
 
-	@Override
+	
 	public Long calcularDiferenciaEnMiliSeg(Date fechaActual, Date fechaIngreso) {
 		return fechaActual.getTime() - fechaIngreso.getTime();
 		
 	}
 	
-	@Override
+	
 	public Long calcularDiasAPagar(Long difEnHoras) {
 		DecimalFormat df = new DecimalFormat("##");
 		
@@ -98,7 +104,7 @@ public class ParqueoServiceImp implements ParqueoService {
 		return diasAPagar;
 	}
 	
-	@Override
+	
 	public Long calcularHorasAPagar(Long difEnHoras, Long difEnMinutos) {
 		DecimalFormat df = new DecimalFormat("##");
 		Long horasRestantes = difEnHoras % 24;
@@ -120,7 +126,7 @@ public class ParqueoServiceImp implements ParqueoService {
 		return horasRestantes;
 	}
 
-	@Override
+	
 	public Long calcularTotalApagar(Vehiculo vehiculo, Parqueadero parqueadero, Long diasAPagar, Long horasRestantes) {
 		Long horasAPagar = horasRestantes;
 		Long totalAPagar;
@@ -138,29 +144,29 @@ public class ParqueoServiceImp implements ParqueoService {
 		return totalAPagar;
 	}
 
-	@Override
+	
 	public Parqueo findByPlaca(String placa) {
 
 		return parqueoRepository.findByPlaca(placa);
 	}
 
-	@Override
+	
 	public Parqueo findByPlacaAndFechaSalida(String placa, Date fechaSalida) {
 
 		return parqueoRepository.findByPlacaAndFechaSalida(placa, fechaSalida);
 	}
 
-	@Override
+	
 	public Parqueo save(Parqueo parqueo) {
 
 		return parqueoRepository.save(parqueo);
 	}
 
-	@Override
+	
 	public Parqueo convertirJsonAParqueo(String parqueoJson) throws Exception {
-		this.mapper = new ObjectMapper();
+		 ObjectMapper mapper = new ObjectMapper();
 		
-		Parqueo parqueo = this.mapper.readValue(parqueoJson, Parqueo.class);
+		Parqueo parqueo = mapper.readValue(parqueoJson, Parqueo.class);
 		//remover espacios
 		String placa = parqueo.getPlaca().trim();
 		placa=placa.replaceAll("//s", "");

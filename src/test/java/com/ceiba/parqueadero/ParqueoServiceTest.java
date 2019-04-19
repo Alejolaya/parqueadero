@@ -14,11 +14,19 @@ import org.junit.Test;
 import com.ceiba.parqueadero.model.Parqueadero;
 import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.model.Vehiculo;
+import com.ceiba.parqueadero.repository.ParqueoRepository;
+import com.ceiba.parqueadero.service.ParqueaderoService;
 import com.ceiba.parqueadero.service.ParqueoService;
-import com.ceiba.parqueadero.service.imp.ParqueoServiceImp;
+import com.ceiba.parqueadero.service.VehiculoService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ParqueoServiceTest {
-
+	
+	private static final String FORMATOFECHA = "yyyy-MM-dd HH:mm:ss";
+	private ParqueoRepository parqueoRepository;
+	private VehiculoService vehiculoService;
+	private ParqueaderoService parqueaderoService;
+	private ObjectMapper mapper;
 	
 	private static final String ABC123 = "ABC123";
 	private static final String HORAINGRESO = "2019-01-01 00:00:00";
@@ -27,7 +35,7 @@ public class ParqueoServiceTest {
 	
 	@Before
 	public void setUp() {
-		parqueoService = new ParqueoServiceImp();
+		parqueoService = new ParqueoService(parqueoRepository, vehiculoService, parqueaderoService);
 	}
 	
 	
@@ -52,8 +60,8 @@ public class ParqueoServiceTest {
 	
 	////////////////////////////////////////////PRUEBAS DE CALCULO DE DIAS////////////////////////
 	@Test
-	public final void testCalcularDiferenciaMiliSeg() throws Exception {
-		SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	public final void testCalcularDiferenciaMiliSeg() throws ParseException  {
+		SimpleDateFormat formatoFecha = new SimpleDateFormat(FORMATOFECHA);
 		String fechaIngresoStr = HORAINGRESO;
 		String fechaSalidaStr = "2019-01-01 00:00:01";
 		Date fechaIngreso = formatoFecha.parse(fechaIngresoStr);
@@ -124,7 +132,7 @@ public class ParqueoServiceTest {
 	
 	@Test
 	public final void testCalcularHorasAPagarIgualA9Horas() throws ParseException {
-		SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat formatoFecha = new SimpleDateFormat(FORMATOFECHA);
 		String fechaIngresoStr = HORAINGRESO;
 		String fechaSalidaStr = "2019-01-01 09:00:00";
 		Date fechaIngreso = formatoFecha.parse(fechaIngresoStr);
@@ -142,7 +150,7 @@ public class ParqueoServiceTest {
 
 	@Test
 	public final void testCalcularHorasAPagarMenorA9Horas() throws ParseException {
-		SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat formatoFecha = new SimpleDateFormat(FORMATOFECHA);
 		String fechaIngresoStr = HORAINGRESO;
 		String fechaSalidaStr = "2019-01-01 07:59:59";
 		Date fechaIngreso = formatoFecha.parse(fechaIngresoStr);
@@ -159,7 +167,7 @@ public class ParqueoServiceTest {
 	}
 	@Test
 	public final void testCalcularHorasAPagarMayorA9Horas() throws ParseException {
-		SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat formatoFecha = new SimpleDateFormat(FORMATOFECHA);
 		String fechaIngresoStr = HORAINGRESO;
 		String fechaSalidaStr = "2019-01-02 07:59:59";
 		Date fechaIngreso = formatoFecha.parse(fechaIngresoStr);
@@ -177,7 +185,7 @@ public class ParqueoServiceTest {
 	
 	@Test
 	public final void testCalcularHorasAPagarMenorAUnaHora() throws ParseException {
-		SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat formatoFecha = new SimpleDateFormat(FORMATOFECHA);
 		String fechaIngresoStr = HORAINGRESO;
 		String fechaSalidaStr = "2019-01-01 00:01:00";
 		Date fechaIngreso = formatoFecha.parse(fechaIngresoStr);

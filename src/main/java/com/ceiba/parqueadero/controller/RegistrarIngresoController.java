@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.ceiba.parqueadero.service.RegistrarIngresoService;
-import com.ceiba.parqueadero.util.RestResponse;
+import com.ceiba.parqueadero.util.Response;
 
 @RestController
 public class RegistrarIngresoController {
@@ -18,7 +18,7 @@ public class RegistrarIngresoController {
 	
 
 	@PostMapping(value = "/ingreso-vehiculos")
-	public RestResponse registrarIngreso(@RequestBody String vehiculoJson)  {
+	public Response registrarIngreso(@RequestBody String vehiculoJson)  {
 
 
 		return registrarIngresoService.registrarIngresoVehiculo(vehiculoJson);
