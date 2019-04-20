@@ -64,12 +64,12 @@ public class IngresarMotoYCarros {
 //		parqueoRepository.deleteAll();
 //		parqueaderoRepository.save(new Parqueadero(1L,500,4000,2000,1000,8000,10,20));
 //	}
-//	@After
-//	public final void despuesDeLosTest() {
-//		vehiculoRepository.deleteAll();
-//		parqueoRepository.deleteAll();
-//		parqueaderoRepository.save(new Parqueadero(1L,500,4000,2000,1000,8000,10,20));
-//	}
+	@After
+	public final void despuesDeLosTest() {
+		vehiculoRepository.deleteAll();
+		parqueoRepository.deleteAll();
+		parqueaderoRepository.save(new Parqueadero(1L,500,4000,2000,1000,8000,10,20));
+	}
 
 	///////////////////////Registrar motos y carros
 	@Test
