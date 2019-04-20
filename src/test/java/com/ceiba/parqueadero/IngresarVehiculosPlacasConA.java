@@ -118,10 +118,10 @@ public class IngresarVehiculosPlacasConA {
 		vehiculoJson.put(CILINDRAJE, 0);
 		SimpleDateFormat formatoFecha = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
 		String fechaSalidaStr = "2019-04-15 00:00:01";// lunes 15 de abril de 2019
-		Date fechaDomingo = formatoFecha.parse(fechaSalidaStr);
+		Date fechaLunes = formatoFecha.parse(fechaSalidaStr);
 
 		// when
-		doReturn(fechaDomingo).when(tiempoService).tiempoActualTipoDate();
+		doReturn(fechaLunes).when(tiempoService).tiempoActualTipoDate();
 		registrarIngresoService.registrarIngresoVehiculo(vehiculoJson.toString());
 		// then
 		Vehiculo vehiculo = vehiculoRepository.findByPlaca(AAA222);
@@ -167,10 +167,10 @@ public class IngresarVehiculosPlacasConA {
 		vehiculoJson.put(CILINDRAJE, 0);
 		SimpleDateFormat formatoFecha = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
 		String fechaSalidaStr = "2019-04-17 00:00:01";// miercoles 17 de abril de 2019
-		Date fechaMartes = formatoFecha.parse(fechaSalidaStr);
+		Date fechaMiercoles = formatoFecha.parse(fechaSalidaStr);
 
 		// when
-		doReturn(fechaMartes).when(tiempoService).tiempoActualTipoDate();
+		doReturn(fechaMiercoles).when(tiempoService).tiempoActualTipoDate();
 		Response res =registrarIngresoService.registrarIngresoVehiculo(vehiculoJson.toString());
 		// then
 		assertThat(res.getResponseCode()).isEqualTo(406);
