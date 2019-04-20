@@ -117,7 +117,7 @@ public class IngresarVehiculosPlacasConA {
 		vehiculoJson.put(TIPO_VEHICULO, "C");
 		vehiculoJson.put(CILINDRAJE, 0);
 		SimpleDateFormat formatoFecha = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
-		String fechaSalidaStr = "2019-04-14 00:00:01";// Domingo 14 de abril de 2019
+		String fechaSalidaStr = "2019-04-15 00:00:01";// lunes 15 de abril de 2019
 		Date fechaDomingo = formatoFecha.parse(fechaSalidaStr);
 
 		// when
@@ -166,7 +166,7 @@ public class IngresarVehiculosPlacasConA {
 		vehiculoJson.put(TIPO_VEHICULO, "C");
 		vehiculoJson.put(CILINDRAJE, 0);
 		SimpleDateFormat formatoFecha = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
-		String fechaSalidaStr = "2019-04-16 00:00:01";// martes 16 de abril de 2019
+		String fechaSalidaStr = "2019-04-17 00:00:01";// miercoles 17 de abril de 2019
 		Date fechaMartes = formatoFecha.parse(fechaSalidaStr);
 
 		// when
