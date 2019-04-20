@@ -11,6 +11,7 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,12 @@ public class IngresarVehiculosPlacasConA {
 	@MockBean
 	TiempoService tiempoService;
 
+	@Before
+	public final void antesDeLosTest() {
+		vehiculoRepository.deleteAll();
+		parqueoRepository.deleteAll();
+		parqueaderoRepository.save(new Parqueadero(1L,500,4000,2000,1000,8000,10,20));
+	}
 	
 	@After
 	public final void despuesDeLosTest() {
