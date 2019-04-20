@@ -17,6 +17,7 @@ import com.ceiba.parqueadero.model.Vehiculo;
 import com.ceiba.parqueadero.repository.ParqueoRepository;
 import com.ceiba.parqueadero.service.ParqueaderoService;
 import com.ceiba.parqueadero.service.ParqueoService;
+import com.ceiba.parqueadero.service.TiempoService;
 import com.ceiba.parqueadero.service.VehiculoService;
 
 public class ParqueoServiceTest {
@@ -25,6 +26,7 @@ public class ParqueoServiceTest {
 	private ParqueoRepository parqueoRepository;
 	private VehiculoService vehiculoService;
 	private ParqueaderoService parqueaderoService;
+	private TiempoService tiempoService;
 
 	
 	private static final String ABC123 = "ABC123";
@@ -34,7 +36,7 @@ public class ParqueoServiceTest {
 	
 	@Before
 	public void setUp() {
-		parqueoService = new ParqueoService(parqueoRepository, vehiculoService, parqueaderoService);
+		parqueoService = new ParqueoService(parqueoRepository, vehiculoService, parqueaderoService,tiempoService);
 	}
 	
 	

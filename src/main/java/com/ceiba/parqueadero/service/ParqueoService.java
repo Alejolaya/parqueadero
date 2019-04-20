@@ -1,5 +1,6 @@
 package com.ceiba.parqueadero.service;
 
+import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -12,36 +13,37 @@ import com.ceiba.parqueadero.model.Parqueadero;
 import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.model.Vehiculo;
 import com.ceiba.parqueadero.repository.ParqueoRepository;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class ParqueoService  {
+public class ParqueoService {
 
-	
 	protected ParqueoRepository parqueoRepository;
 
-	
 	protected VehiculoService vehiculoService;
 
 	protected ParqueaderoService parqueaderoService;
-	
-//	protected ObjectMapper mapper;
+
+	protected TiempoService tiempoService;
 
 	@Autowired
 	public ParqueoService(ParqueoRepository parqueoRepository, VehiculoService vehiculoService,
-			ParqueaderoService parqueaderoService) {
-	
+			ParqueaderoService parqueaderoService, TiempoService tiempoService) {
+
 		this.parqueoRepository = parqueoRepository;
 		this.vehiculoService = vehiculoService;
 		this.parqueaderoService = parqueaderoService;
-//		this.mapper = mapper;
+		this.tiempoService = tiempoService;
+
 	}
 
-	
 	public Parqueo ingresar(Parqueo parqueo) {
 
 		// obtener tiempo actual
-		Date fechaActual = new Date();
+
+		Date fechaActual = tiempoService.tiempoActualTipoDate();
 
 		// crear el objeto a insertar la db
 		parqueo.setFechaIngreso(fechaActual);
@@ -51,7 +53,6 @@ public class ParqueoService  {
 		return parqueoRepository.save(parqueo);
 	}
 
-	
 	public Parqueo pagar(Parqueo parqueo) {
 		// obtener tiempo actual
 		// calcular numero de horas
@@ -65,7 +66,7 @@ public class ParqueoService  {
 		Parqueadero parqueadero = parqueaderoService.findById(1L);
 
 		// Calcular diferencia de fechas
-		Date fechaActual = new Date();
+		Date fechaActual = tiempoService.tiempoActualTipoDate();
 		Date fechaIngreso = parqueo.getFechaIngreso();
 		Long diffInMillies = calcularDiferenciaEnMiliSeg(fechaActual, fechaIngreso);
 		Long difEnHoras = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
@@ -85,26 +86,23 @@ public class ParqueoService  {
 		return parqueo;
 	}
 
-	
 	public Long calcularDiferenciaEnMiliSeg(Date fechaActual, Date fechaIngreso) {
 		return fechaActual.getTime() - fechaIngreso.getTime();
-		
+
 	}
-	
-	
+
 	public Long calcularDiasAPagar(Long difEnHoras) {
 		DecimalFormat df = new DecimalFormat("##");
-		
+
 		Long diasAPagar = Long.valueOf(df.format(difEnHoras / 24));
-		
+
 		if (difEnHoras % 24 >= 9) {
 			diasAPagar++;
-			
+
 		}
 		return diasAPagar;
 	}
-	
-	
+
 	public Long calcularHorasAPagar(Long difEnHoras, Long difEnMinutos) {
 		DecimalFormat df = new DecimalFormat("##");
 		Long horasRestantes = difEnHoras % 24;
@@ -126,7 +124,6 @@ public class ParqueoService  {
 		return horasRestantes;
 	}
 
-	
 	public Long calcularTotalApagar(Vehiculo vehiculo, Parqueadero parqueadero, Long diasAPagar, Long horasRestantes) {
 		Long horasAPagar = horasRestantes;
 		Long totalAPagar;
@@ -144,44 +141,37 @@ public class ParqueoService  {
 		return totalAPagar;
 	}
 
-	
 	public Parqueo findByPlaca(String placa) {
 
 		return parqueoRepository.findByPlaca(placa);
 	}
 
-	
 	public Parqueo findByPlacaAndFechaSalida(String placa, Date fechaSalida) {
 
 		return parqueoRepository.findByPlacaAndFechaSalida(placa, fechaSalida);
 	}
 
-	
 	public Parqueo save(Parqueo parqueo) {
 
 		return parqueoRepository.save(parqueo);
 	}
 
-	
-	public Parqueo convertirJsonAParqueo(String parqueoJson) throws Exception {
-		 ObjectMapper mapper = new ObjectMapper();
-		
+	public Parqueo convertirJsonAParqueo(String parqueoJson) throws JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+
 		Parqueo parqueo = mapper.readValue(parqueoJson, Parqueo.class);
-		//remover espacios
+		// remover espacios
 		String placa = parqueo.getPlaca().trim();
-		placa=placa.replaceAll("//s", "");
-		//Convertir la placa a mayuscula
-		
+		placa = placa.replaceAll("//s", "");
+		// Convertir la placa a mayuscula
+
 		placa = placa.toUpperCase();
 		parqueo.setPlaca(placa);
-		//convertir placa a mayuscula
+		// convertir placa a mayuscula
 		placa = placa.toUpperCase();
 		parqueo.setPlaca(placa);
-		
-		
+
 		return parqueo;
 	}
-	
-	
 
 }

@@ -18,19 +18,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class VehiculoService  {
 
-//	@Autowired
+
 	protected VehiculoRepository vehiculoRepository;
-//	@Autowired
+
 	protected ParqueoService parqueoService;
 	
-	protected ObjectMapper mapper;
 
 	@Autowired
 	public VehiculoService(VehiculoRepository vehiculoRepository, @Lazy ParqueoService parqueoService) {
 
 		this.vehiculoRepository = vehiculoRepository;
 		this.parqueoService = parqueoService;
-		//this.mapper = mapper;
+
 	}
 
 	
@@ -52,14 +51,14 @@ public class VehiculoService  {
 	}
 
 	
-	public Vehiculo convertirYValidarJsonAVehiculo(String vehiculoJson) throws ValidarVehiculoException {
+	public Vehiculo convertirYValidarJsonAVehiculo(String vehiculoJson) throws ValidarVehiculoException  {
 		ObjectMapper mapper = new ObjectMapper();
 
 		Vehiculo vehiculo = new Vehiculo();
 		try {
 			vehiculo = mapper.readValue(vehiculoJson, Vehiculo.class);
 		} catch (Exception e) {
-			throw new ValidarVehiculoException("datos invalidos", 0);
+			throw new ValidarVehiculoException("No fue posible leer los datos enviados ERROR: "+e.getMessage(), 0);
 		}
 
 		this.validarVehiculo(vehiculo);

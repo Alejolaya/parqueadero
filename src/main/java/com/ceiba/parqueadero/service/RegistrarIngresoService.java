@@ -9,7 +9,10 @@ import com.ceiba.parqueadero.model.Parqueadero;
 import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.model.Vehiculo;
 import com.ceiba.parqueadero.util.Response;
+import com.ceiba.parqueadero.util.ValidarVehiculoException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 
 @Service
 public class RegistrarIngresoService {
@@ -25,20 +28,24 @@ public class RegistrarIngresoService {
 	protected ParqueaderoService parqueaderoService;
 
 	protected ObjectMapper mapper;
+	
+	protected TiempoService tiempoService;
 
 	@Autowired
 	public RegistrarIngresoService(VehiculoService vehiculoService, ParqueoService parqueoService,
-			ParqueaderoService parqueaderoService, ObjectMapper mapper) {
+			ParqueaderoService parqueaderoService, ObjectMapper mapper,TiempoService tiempoService) {
 
 		this.vehiculoService = vehiculoService;
 		this.parqueoService = parqueoService;
 		this.parqueaderoService = parqueaderoService;
 		this.mapper = mapper;
+		this.tiempoService = tiempoService;
+		
 	}
 
 	public Response registrarIngresoVehiculo(String vehiculoJson)  {
 		this.mapper = new ObjectMapper();
-		Date fechaActual = new Date();
+		Date fechaActual = tiempoService.tiempoActualTipoDate();
 
 		Parqueadero parqueadero = parqueaderoService.findById(1L);
 
@@ -52,7 +59,7 @@ public class RegistrarIngresoService {
 
 				return new Response(OK, "Vehiculo Registrado con exito");
 
-			} catch (Exception e) {
+			}catch (ValidarVehiculoException e) {
 				return new Response(NOT_ACCEPTABLE,
 						"NO SE REGISTRO INGRESO" + " " + e.getMessage());
 			}
@@ -82,7 +89,7 @@ public class RegistrarIngresoService {
 		parqueoService.ingresar(parqueo);
 	}
 
-	private Vehiculo validarVehiculo(String vehiculoJson, Date fechaActual, Parqueadero parqueadero) throws Exception {
+	private Vehiculo validarVehiculo(String vehiculoJson, Date fechaActual, Parqueadero parqueadero) throws ValidarVehiculoException  {
 		Vehiculo vehiculo = vehiculoService.convertirYValidarJsonAVehiculo(vehiculoJson);
 		vehiculoService.validarPlacaYDiaSemana(vehiculo, fechaActual);
 		vehiculoService.validarCeldasDisponibles(parqueadero, vehiculo);
