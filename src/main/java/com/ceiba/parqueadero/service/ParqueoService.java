@@ -39,11 +39,7 @@ public class ParqueoService {
 
 	}
 
-	public Parqueo ingresar(Parqueo parqueo) {
-
-		// obtener tiempo actual
-
-		Date fechaActual = tiempoService.tiempoActualTipoDate();
+	public Parqueo ingresar(Parqueo parqueo, Date fechaActual) {
 
 		// crear el objeto a insertar la db
 		parqueo.setFechaIngreso(fechaActual);

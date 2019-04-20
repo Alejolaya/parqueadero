@@ -54,7 +54,7 @@ public class RegistrarIngresoService {
 		} else {
 			try {
 				Vehiculo vehiculo = validarVehiculo(vehiculoJson, fechaActual, parqueadero);
-				parquear(vehiculo);
+				parquear(vehiculo,fechaActual);
 				disminuirCeldasDisponibles(vehiculo);
 
 				return new Response(OK, "Vehiculo Registrado con exito");
@@ -74,7 +74,7 @@ public class RegistrarIngresoService {
 		}
 	}
 
-	private void parquear(Vehiculo vehiculo) {
+	private void parquear(Vehiculo vehiculo, Date fechaActual) {
 		Parqueo parqueo = new Parqueo();
 		Vehiculo vehiculoID = vehiculoService.findByPlaca(vehiculo);
 		if (vehiculoID == null) {
@@ -86,7 +86,7 @@ public class RegistrarIngresoService {
 
 		}
 		parqueo.setPlaca(vehiculo.getPlaca());
-		parqueoService.ingresar(parqueo);
+		parqueoService.ingresar(parqueo,fechaActual);
 	}
 
 	private Vehiculo validarVehiculo(String vehiculoJson, Date fechaActual, Parqueadero parqueadero) throws ValidarVehiculoException  {
