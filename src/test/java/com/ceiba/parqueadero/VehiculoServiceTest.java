@@ -21,7 +21,6 @@ import com.ceiba.parqueadero.repository.VehiculoRepository;
 import com.ceiba.parqueadero.service.ParqueoService;
 import com.ceiba.parqueadero.service.VehiculoService;
 import com.ceiba.parqueadero.util.ValidarVehiculoException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class VehiculoServiceTest {
 
@@ -38,7 +37,7 @@ public class VehiculoServiceTest {
 	@Autowired
 	private VehiculoRepository vehiculoRepository;
 
-	private ObjectMapper mapper;
+	
 	
 	
 	@Before

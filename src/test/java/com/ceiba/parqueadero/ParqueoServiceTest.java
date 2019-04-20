@@ -18,7 +18,6 @@ import com.ceiba.parqueadero.repository.ParqueoRepository;
 import com.ceiba.parqueadero.service.ParqueaderoService;
 import com.ceiba.parqueadero.service.ParqueoService;
 import com.ceiba.parqueadero.service.VehiculoService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ParqueoServiceTest {
 	
@@ -26,7 +25,7 @@ public class ParqueoServiceTest {
 	private ParqueoRepository parqueoRepository;
 	private VehiculoService vehiculoService;
 	private ParqueaderoService parqueaderoService;
-	private ObjectMapper mapper;
+
 	
 	private static final String ABC123 = "ABC123";
 	private static final String HORAINGRESO = "2019-01-01 00:00:00";
