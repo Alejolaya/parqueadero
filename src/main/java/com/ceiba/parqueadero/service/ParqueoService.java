@@ -3,6 +3,7 @@ package com.ceiba.parqueadero.service;
 import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -49,11 +50,6 @@ public class ParqueoService {
 	}
 
 	public Parqueo pagar(Parqueo parqueo) {
-		// obtener tiempo actual
-		// calcular numero de horas
-		// consultar vehiculo
-		// validar si es moto de alto cc
-		//
 
 		Vehiculo vehiculo = new Vehiculo();
 		vehiculo.setPlaca(parqueo.getPlaca());
@@ -61,10 +57,11 @@ public class ParqueoService {
 		Parqueadero parqueadero = parqueaderoService.findById(1L);
 
 		// Calcular diferencia de fechas
-		LocalDateTime fechaActual = LocalDateTime.now();
+		LocalDateTime fechaActual = tiempoService.tiempoActualTipoLocalDateTime();
 		LocalDateTime fechaIngreso = parqueo.getFechaIngreso();
 		
-		Long diffInMillies = calcularDiferenciaEnMiliSeg(tiempoService.converToDate(fechaActual), tiempoService.converToDate(fechaIngreso));
+		//Long diffInMillies = calcularDiferenciaEnMiliSeg(tiempoService.converToDate(fechaActual), tiempoService.converToDate(fechaIngreso));
+		Long diffInMillies =Duration.between(fechaActual, fechaIngreso).toMillis();
 		Long difEnHoras = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 		Long difEnMinutos = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
 		DecimalFormat df = new DecimalFormat("##");

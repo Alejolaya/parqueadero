@@ -13,8 +13,6 @@ import com.ceiba.parqueadero.util.Response;
 import com.ceiba.parqueadero.util.ValidarVehiculoException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-
 @Service
 public class RegistradorIngresoService {
 
@@ -29,24 +27,24 @@ public class RegistradorIngresoService {
 	protected ParqueaderoService parqueaderoService;
 
 	protected ObjectMapper mapper;
-	
+
 	protected TiempoService tiempoService;
 
 	@Autowired
 	public RegistradorIngresoService(VehiculoService vehiculoService, ParqueoService parqueoService,
-			ParqueaderoService parqueaderoService, ObjectMapper mapper,TiempoService tiempoService) {
+			ParqueaderoService parqueaderoService, ObjectMapper mapper, TiempoService tiempoService) {
 
 		this.vehiculoService = vehiculoService;
 		this.parqueoService = parqueoService;
 		this.parqueaderoService = parqueaderoService;
 		this.mapper = mapper;
 		this.tiempoService = tiempoService;
-		
+
 	}
 
-	public Response registrarIngresoVehiculo(String vehiculoJson)  {
+	public Response registrarIngresoVehiculo(String vehiculoJson) {
 		this.mapper = new ObjectMapper();
-		Clock clock = Clock.systemDefaultZone();
+
 		LocalDateTime fechaActual = tiempoService.tiempoActualTipoLocalDateTime();
 
 		Parqueadero parqueadero = parqueaderoService.findById(1L);
@@ -56,14 +54,13 @@ public class RegistradorIngresoService {
 		} else {
 			try {
 				Vehiculo vehiculo = validarVehiculo(vehiculoJson, fechaActual, parqueadero);
-				parquear(vehiculo,fechaActual);
+				parquear(vehiculo, fechaActual);
 				disminuirCeldasDisponibles(vehiculo);
 
 				return new Response(OK, "Vehiculo Registrado con exito");
 
-			}catch (ValidarVehiculoException e) {
-				return new Response(NOT_ACCEPTABLE,
-						"NO SE REGISTRO INGRESO" + " " + e.getMessage());
+			} catch (ValidarVehiculoException e) {
+				return new Response(NOT_ACCEPTABLE, "NO SE REGISTRO INGRESO" + " " + e.getMessage());
 			}
 		}
 	}
@@ -88,10 +85,11 @@ public class RegistradorIngresoService {
 
 		}
 		parqueo.setPlaca(vehiculo.getPlaca());
-		parqueoService.ingresar(parqueo,fechaActual);
+		parqueoService.ingresar(parqueo, fechaActual);
 	}
 
-	private Vehiculo validarVehiculo(String vehiculoJson, LocalDateTime fechaActual, Parqueadero parqueadero) throws ValidarVehiculoException  {
+	private Vehiculo validarVehiculo(String vehiculoJson, LocalDateTime fechaActual, Parqueadero parqueadero)
+			throws ValidarVehiculoException {
 		Vehiculo vehiculo = vehiculoService.convertirYValidarJsonAVehiculo(vehiculoJson);
 		vehiculoService.validarPlacaYDiaSemana(vehiculo, fechaActual);
 		vehiculoService.validarCeldasDisponibles(parqueadero, vehiculo);

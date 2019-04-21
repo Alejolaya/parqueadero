@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.util.Response;
+import com.ceiba.parqueadero.util.SalidaVehiculoException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -31,7 +32,7 @@ public class RegistradorSalidaService {
 			Parqueo parqueo = parqueoService.convertirJsonAParqueo(parqueoJson);
 			Parqueo parqueoID = parqueoService.findByPlacaAndFechaSalida(parqueo.getPlaca(), null);
 			if (parqueoID == null) {
-				throw new Exception("No se encuentra la placa:" + " " + parqueo.getPlaca());
+				throw new SalidaVehiculoException("No se encuentra la placa:" + " " + parqueo.getPlaca(), 0);
 			}
 
 			parqueo = parqueoService.pagar(parqueoID);
