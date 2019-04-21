@@ -1,5 +1,6 @@
 package com.ceiba.parqueadero.service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class RegistrarIngresoService {
 
 	public Response registrarIngresoVehiculo(String vehiculoJson)  {
 		this.mapper = new ObjectMapper();
-		Date fechaActual = tiempoService.tiempoActualTipoDate();
+		LocalDateTime fechaActual = LocalDateTime.now();
 
 		Parqueadero parqueadero = parqueaderoService.findById(1L);
 
@@ -74,7 +75,7 @@ public class RegistrarIngresoService {
 		}
 	}
 
-	private void parquear(Vehiculo vehiculo, Date fechaActual) {
+	private void parquear(Vehiculo vehiculo, LocalDateTime fechaActual) {
 		Parqueo parqueo = new Parqueo();
 		Vehiculo vehiculoID = vehiculoService.findByPlaca(vehiculo);
 		if (vehiculoID == null) {
@@ -89,7 +90,7 @@ public class RegistrarIngresoService {
 		parqueoService.ingresar(parqueo,fechaActual);
 	}
 
-	private Vehiculo validarVehiculo(String vehiculoJson, Date fechaActual, Parqueadero parqueadero) throws ValidarVehiculoException  {
+	private Vehiculo validarVehiculo(String vehiculoJson, LocalDateTime fechaActual, Parqueadero parqueadero) throws ValidarVehiculoException  {
 		Vehiculo vehiculo = vehiculoService.convertirYValidarJsonAVehiculo(vehiculoJson);
 		vehiculoService.validarPlacaYDiaSemana(vehiculo, fechaActual);
 		vehiculoService.validarCeldasDisponibles(parqueadero, vehiculo);

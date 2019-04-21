@@ -2,6 +2,8 @@ package com.ceiba.parqueadero.service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,12 +90,14 @@ public class VehiculoService  {
 	}
 
 	
-	public void validarPlacaYDiaSemana(Vehiculo vehiculo, Date date) throws ValidarVehiculoException {
+	public void validarPlacaYDiaSemana(Vehiculo vehiculo, LocalDateTime fechaActual) throws ValidarVehiculoException {
 
-		DateFormat formatoDia = new SimpleDateFormat("EEEE");
-		String diaDeLaSemana = formatoDia.format(date);
 
-		if (!"SUNDAY".equalsIgnoreCase(diaDeLaSemana) && !"MONDAY".equalsIgnoreCase(diaDeLaSemana)
+		DayOfWeek domingo = DayOfWeek.SUNDAY;
+		DayOfWeek lunes= DayOfWeek.MONDAY;
+
+
+		if(!domingo.equals(fechaActual.getDayOfWeek())&&!lunes.equals(fechaActual.getDayOfWeek())
 				&& 'A' == vehiculo.getPlaca().charAt(0)) {
 			throw new ValidarVehiculoException("hoy las placas que comienzan con A no pueden ingresar", 0);
 		}

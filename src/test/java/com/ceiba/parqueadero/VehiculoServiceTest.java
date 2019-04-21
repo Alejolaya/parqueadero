@@ -3,9 +3,7 @@ package com.ceiba.parqueadero;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,128 +22,123 @@ import com.ceiba.parqueadero.util.ValidarVehiculoException;
 
 public class VehiculoServiceTest {
 
-	private static final String FORMATOFECHA = "yyyy-MM-dd HH:mm:ss";
-
 	private static final String RGM20E = "RGM20E";
 
 	private static final String ABC123 = "ABC123";
 
 	private VehiculoService vehiculoService;
-	
+
 	@MockBean
 	private ParqueoService parqueoService;
 	@Autowired
 	private VehiculoRepository vehiculoRepository;
 
-	
-	
-	
 	@Before
 	public void setUp() {
-		
-		vehiculoService = new VehiculoService(vehiculoRepository,parqueoService);
+
+		vehiculoService = new VehiculoService(vehiculoRepository, parqueoService);
 	}
-	
+
 	@Test
-	public void testConvertirJsonAVehiculo() throws ValidarVehiculoException,JSONException {
-		
-		
+	public void testConvertirJsonAVehiculo() throws ValidarVehiculoException, JSONException {
+
 		JSONObject vehiculoJson = new JSONObject();
 		vehiculoJson.put("placa", " abc123 ");
 		vehiculoJson.put("tipoVehiculo", "M");
 		vehiculoJson.put("cilindraje", 1000);
-		
-		Vehiculo vehiculo =	vehiculoService.convertirYValidarJsonAVehiculo(vehiculoJson.toString());
-		
+
+		Vehiculo vehiculo = vehiculoService.convertirYValidarJsonAVehiculo(vehiculoJson.toString());
+
 		Vehiculo vehiculoEsperado = new Vehiculo();
 		vehiculoEsperado.setPlaca(ABC123);
 		vehiculoEsperado.setTipoVehiculo("M");
 		vehiculoEsperado.setCilindraje(1000);
 		assertThat(ABC123).isEqualTo((vehiculo.getPlaca()));
-			
-	
+
 	}
-	
-	///////////////////////////////////VALIDAR VEHICULO DE ENTRADA//////////////////////////////
-	
+
+	/////////////////////////////////// VALIDAR VEHICULO DE
+	/////////////////////////////////// ENTRADA//////////////////////////////
+
 	@Test(expected = Exception.class)
 	public void testValidaVehiculoMotoSinCilindraje() throws ValidarVehiculoException {
-		Vehiculo vehiculo = new Vehiculo(1L,ABC123,"M",0);
+		Vehiculo vehiculo = new Vehiculo(1L, ABC123, "M", 0);
 		vehiculoService.validarVehiculo(vehiculo);
 	}
-	
+
 	@Test(expected = Exception.class)
 	public void testValidaVehiculoSinPlaca() throws ValidarVehiculoException {
-		Vehiculo vehiculo = new Vehiculo(1L,null,"M",100);
+		Vehiculo vehiculo = new Vehiculo(1L, null, "M", 100);
 		vehiculoService.validarVehiculo(vehiculo);
 	}
-	
+
 	@Test(expected = Exception.class)
 	public void testValidaVehiculoSinTipoVehiculo() throws ValidarVehiculoException {
-		Vehiculo vehiculo = new Vehiculo(1L,ABC123,null,100);
+		Vehiculo vehiculo = new Vehiculo(1L, ABC123, null, 100);
 		vehiculoService.validarVehiculo(vehiculo);
 	}
-	
 
-	//////////////////////////////////VALIDAR CELDAS DISPONIBLES//////////////////////////////////////
-	
+	////////////////////////////////// VALIDAR CELDAS
+	////////////////////////////////// DISPONIBLES//////////////////////////////////////
+
 	@Test(expected = Exception.class)
-	public void testValidarCeldasDisponiblesCeroDeMoto() throws ValidarVehiculoException{
+	public void testValidarCeldasDisponiblesCeroDeMoto() throws ValidarVehiculoException {
 		Parqueadero parqueadero = new Parqueadero(1L, 500, 4000, 2000, 1000, 8000, 0, 1);
 		Vehiculo vehiculo = new Vehiculo(1L, RGM20E, "M", 100);
 		vehiculoService.validarCeldasDisponibles(parqueadero, vehiculo);
 	}
-	
+
 	@Test(expected = Exception.class)
-	public void testValidarCeldasDisponiblesCeroDeCarro() throws ValidarVehiculoException{
+	public void testValidarCeldasDisponiblesCeroDeCarro() throws ValidarVehiculoException {
 		Parqueadero parqueadero = new Parqueadero(1L, 500, 4000, 2000, 1000, 8000, 1, 0);
 		Vehiculo vehiculo = new Vehiculo(1L, RGM20E, "C", 100);
 		vehiculoService.validarCeldasDisponibles(parqueadero, vehiculo);
 	}
-	
-	////////////////////////////////////VALIDAR VEHICULO EN PARQUEADERO//////////////////////////////////
-	
+
+	//////////////////////////////////// VALIDAR VEHICULO EN
+	//////////////////////////////////// PARQUEADERO//////////////////////////////////
+
 	@Test(expected = Exception.class)
-	public void validarVehiculoEnParqueadero() throws ValidarVehiculoException{
+	public void validarVehiculoEnParqueadero() throws ValidarVehiculoException {
 		Vehiculo vehiculo = new Vehiculo(1L, RGM20E, "C", 100);
 		Parqueo parqueo = null;
-		
+
 		doReturn(parqueo).when(parqueoService).findByPlacaAndFechaSalida(RGM20E, null);
-		
+
 		vehiculoService.validarVehiculoEnParqueadero(vehiculo);
-		
+
 	}
-	
-	///////////////////////////////////////VALIDAR PLACA Y DIA DE LA SEMANA//////////////////////////////////////
-	
+
+	/////////////////////////////////////// VALIDAR PLACA Y DIA DE LA
+	/////////////////////////////////////// SEMANA//////////////////////////////////////
+
 	@Test
-	public void testValidarPlacaYDiaSemanaDomingo() throws ValidarVehiculoException, ParseException{
-		SimpleDateFormat formatoFecha = new SimpleDateFormat(FORMATOFECHA);
-		String fechaSalidaStr = "2019-04-14 00:00:01";//Domingo 14 de abril de 2019
-		Date fechaDomingo = formatoFecha.parse(fechaSalidaStr);
-		Vehiculo vehiculo = new Vehiculo(1L,ABC123,"M",100);
-		
+	public void testValidarPlacaYDiaSemanaDomingo() throws ValidarVehiculoException {
+
+		// Domingo 14 de abril de 2019
+		LocalDateTime fechaDomingo = LocalDateTime.of(2019, 4, 14, 0, 1);
+		Vehiculo vehiculo = new Vehiculo(1L, ABC123, "M", 100);
+
 		vehiculoService.validarPlacaYDiaSemana(vehiculo, fechaDomingo);
-		
+
 	}
+
 	@Test
-	public void testValidarPlacaYDiaSemanaLunes() throws ValidarVehiculoException, ParseException{
-		SimpleDateFormat formatoFecha = new SimpleDateFormat(FORMATOFECHA);
-		String fechaSalidaStr = "2019-04-15 00:00:01";//Lunes 15 de abril de 2019
-		Date fechaDomingo = formatoFecha.parse(fechaSalidaStr);
-		Vehiculo vehiculo = new Vehiculo(1L,ABC123,"M",100);
-		
-		vehiculoService.validarPlacaYDiaSemana(vehiculo, fechaDomingo);
+	public void testValidarPlacaYDiaSemanaLunes() throws ValidarVehiculoException {
+		// Lunes 15 de abril de 2019
+		LocalDateTime fechaLunes = LocalDateTime.of(2019, 4, 15, 0, 1);
+		Vehiculo vehiculo = new Vehiculo(1L, ABC123, "M", 100);
+
+		vehiculoService.validarPlacaYDiaSemana(vehiculo, fechaLunes);
 	}
-	
+
 	@Test(expected = Exception.class)
-	public void testValidarPlacaYDiaSemanaMartes() throws ValidarVehiculoException, ParseException {
-		SimpleDateFormat formatoFecha = new SimpleDateFormat(FORMATOFECHA);
-		String fechaSalidaStr = "2019-04-16 00:00:01";//Martes 15 de abril de 2019
-		Date fechaDomingo = formatoFecha.parse(fechaSalidaStr);
-		Vehiculo vehiculo = new Vehiculo(1L,ABC123,"M",100);
-		
-		vehiculoService.validarPlacaYDiaSemana(vehiculo, fechaDomingo);
+	public void testValidarPlacaYDiaSemanaMartes() throws ValidarVehiculoException {
+		// Martes 16 de abril de 2019
+		LocalDateTime fechaLunes = LocalDateTime.of(2019, 4, 16, 0, 1);
+		Vehiculo vehiculo = new Vehiculo(1L, ABC123, "M", 100);
+
+		vehiculoService.validarPlacaYDiaSemana(vehiculo, fechaLunes);
 	}
 
 }

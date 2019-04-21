@@ -1,5 +1,6 @@
 package com.ceiba.parqueadero.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Access;
@@ -20,12 +21,10 @@ public class Parqueo extends ParentEntity {
 	private static final long serialVersionUID = 1L;
 	
 	@Column(name = "fecha_ingreso", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date fechaIngreso;
+	private LocalDateTime  fechaIngreso;
 	
 	@Column(name = "fecha_salida", nullable = true)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date fechaSalida;
+	private LocalDateTime  fechaSalida;
 	
 	@Column(name = "placa", nullable = false)
 	private String placa;
@@ -36,7 +35,7 @@ public class Parqueo extends ParentEntity {
 	@Column(name = "costo", nullable = true)
 	private int costo;
 
-	public Parqueo(Long id, Date fechaIngreso, Date fechaSalida, String placa, Long parqueadero, int costo) {
+	public Parqueo(Long id, LocalDateTime fechaIngreso, LocalDateTime fechaSalida, String placa, Long parqueadero, int costo) {
 		super(id);
 		this.fechaIngreso = fechaIngreso;
 		this.fechaSalida = fechaSalida;
@@ -56,19 +55,19 @@ public class Parqueo extends ParentEntity {
 		this.costo = costo;
 	}
 
-	public Date getFechaIngreso() {
+	public LocalDateTime getFechaIngreso() {
 		return fechaIngreso;
 	}
 
-	public void setFechaIngreso(Date fechaIngreso) {
+	public void setFechaIngreso(LocalDateTime fechaIngreso) {
 		this.fechaIngreso = fechaIngreso;
 	}
 
-	public Date getFechaSalida() {
+	public LocalDateTime getFechaSalida() {
 		return fechaSalida;
 	}
 
-	public void setFechaSalida(Date fechaSalida) {
+	public void setFechaSalida(LocalDateTime fechaSalida) {
 		this.fechaSalida = fechaSalida;
 	}
 
