@@ -25,7 +25,7 @@ import com.ceiba.parqueadero.service.VehiculoService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class IngresarMotoYCarros {
+public class IngresarMotoYCarrosTest {
 
 
 	private static final String BBB222 = "BBB222";

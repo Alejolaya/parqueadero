@@ -47,7 +47,7 @@ public class RegistradorIngresoService {
 	public Response registrarIngresoVehiculo(String vehiculoJson)  {
 		this.mapper = new ObjectMapper();
 		Clock clock = Clock.systemDefaultZone();
-		LocalDateTime fechaActual = tiempoService.tiempoActualTipoLocalDateTime(clock);
+		LocalDateTime fechaActual = tiempoService.tiempoActualTipoLocalDateTime();
 
 		Parqueadero parqueadero = parqueaderoService.findById(1L);
 

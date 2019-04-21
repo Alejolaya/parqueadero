@@ -16,7 +16,7 @@ public class TiempoService {
 
 	}
 	
-	public LocalDateTime tiempoActualTipoLocalDateTime(Clock clock) {
+	public LocalDateTime tiempoActualTipoLocalDateTime() {
 
 		return LocalDateTime.now();
 
