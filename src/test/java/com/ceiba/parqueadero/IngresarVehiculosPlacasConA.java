@@ -26,7 +26,7 @@ import com.ceiba.parqueadero.repository.ParqueaderoRepository;
 import com.ceiba.parqueadero.repository.ParqueoRepository;
 import com.ceiba.parqueadero.repository.VehiculoRepository;
 import com.ceiba.parqueadero.service.ParqueaderoService;
-import com.ceiba.parqueadero.service.RegistrarIngresoService;
+import com.ceiba.parqueadero.service.RegistradorIngresoService;
 import com.ceiba.parqueadero.service.TiempoService;
 import com.ceiba.parqueadero.service.VehiculoService;
 import com.ceiba.parqueadero.util.Response;
@@ -55,7 +55,7 @@ public class IngresarVehiculosPlacasConA {
 	ParqueaderoService parqueaderoService;
 
 	@Autowired
-	RegistrarIngresoService registrarIngresoService;
+	RegistradorIngresoService registrarIngresoService;
 
 	@Autowired
 	VehiculoRepository vehiculoRepository;

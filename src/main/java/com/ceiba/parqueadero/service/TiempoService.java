@@ -1,5 +1,6 @@
 package com.ceiba.parqueadero.service;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -15,7 +16,7 @@ public class TiempoService {
 
 	}
 	
-	public LocalDateTime tiempoActualTipoLocalDateTime() {
+	public LocalDateTime tiempoActualTipoLocalDateTime(Clock clock) {
 
 		return LocalDateTime.now();
 

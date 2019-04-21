@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import com.ceiba.parqueadero.repository.ParqueaderoRepository;
 import com.ceiba.parqueadero.repository.ParqueoRepository;
 import com.ceiba.parqueadero.repository.VehiculoRepository;
 import com.ceiba.parqueadero.service.ParqueaderoService;
-import com.ceiba.parqueadero.service.RegistrarIngresoService;
+import com.ceiba.parqueadero.service.RegistradorIngresoService;
 import com.ceiba.parqueadero.service.TiempoService;
 import com.ceiba.parqueadero.service.VehiculoService;
 
@@ -41,7 +40,7 @@ public class IngresarMotoYCarros {
 	ParqueaderoService parqueaderoService;
 	
 	@Autowired 
-	RegistrarIngresoService registrarIngresoService;
+	RegistradorIngresoService registrarIngresoService;
 	
 	@Autowired
 	VehiculoRepository vehiculoRepository;
@@ -57,12 +56,7 @@ public class IngresarMotoYCarros {
 	
 	
 	
-//	@Before
-//	public final void antesDeLosTest() {
-//		vehiculoRepository.deleteAll();
-//		parqueoRepository.deleteAll();
-//		parqueaderoRepository.save(new Parqueadero(1L,500,4000,2000,1000,8000,10,20));
-//	}
+
 	@After
 	public final void despuesDeLosTest() {
 		vehiculoRepository.deleteAll();

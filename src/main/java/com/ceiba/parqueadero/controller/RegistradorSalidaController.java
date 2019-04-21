@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ceiba.parqueadero.service.ParqueaderoService;
 import com.ceiba.parqueadero.service.ParqueoService;
-import com.ceiba.parqueadero.service.RegistrarSalidaService;
+import com.ceiba.parqueadero.service.RegistradorSalidaService;
 import com.ceiba.parqueadero.service.VehiculoService;
 import com.ceiba.parqueadero.util.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
-public class RegistrarSalidaController {
+public class RegistradorSalidaController {
 	@Autowired
 	protected VehiculoService vehiculoService;
 
@@ -24,7 +24,7 @@ public class RegistrarSalidaController {
 	protected ParqueaderoService parqueaderoService;
 
 	@Autowired
-	protected RegistrarSalidaService registrarSalidaService;
+	protected RegistradorSalidaService registrarSalidaService;
 	
 	
 

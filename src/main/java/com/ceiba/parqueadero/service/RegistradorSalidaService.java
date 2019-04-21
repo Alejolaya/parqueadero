@@ -12,14 +12,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Service
-public class RegistrarSalidaService {
+public class RegistradorSalidaService {
 
 	ParqueoService parqueoService;
 	ParqueaderoService parqueaderoService;
 	protected ObjectMapper mapper;
 	
 	@Autowired
-	public RegistrarSalidaService(ParqueoService parqueoService, ParqueaderoService parqueaderoService) {
+	public RegistradorSalidaService(ParqueoService parqueoService, ParqueaderoService parqueaderoService) {
 		
 		this.parqueoService = parqueoService;
 		this.parqueaderoService = parqueaderoService;

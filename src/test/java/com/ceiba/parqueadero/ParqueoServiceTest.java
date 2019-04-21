@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +44,7 @@ public class ParqueoServiceTest {
 	
 	////////////////////////////////////////////CONVERTIR JSON A PARQUEO//////////////////////////
 	@Test
-	public void testConvertirJsonAParqueo() throws Exception{
+	public void testConvertirJsonAParqueo() throws JSONException  {
 		JSONObject parqueoJson = new JSONObject();
 		parqueoJson.put("placa", "abc123 ");
 		parqueoJson.put("fechaIngreso", null);

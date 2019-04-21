@@ -5,15 +5,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import com.ceiba.parqueadero.service.RegistrarIngresoService;
+import com.ceiba.parqueadero.service.RegistradorIngresoService;
 import com.ceiba.parqueadero.util.Response;
 
 @RestController
-public class RegistrarIngresoController {
+public class RegistradorIngresoController {
 	
 	@Autowired
-	protected RegistrarIngresoService registrarIngresoService;
+	protected RegistradorIngresoService registradorIngresoService;
 	
 	
 
@@ -21,7 +20,7 @@ public class RegistrarIngresoController {
 	public Response registrarIngreso(@RequestBody String vehiculoJson)  {
 
 
-		return registrarIngresoService.registrarIngresoVehiculo(vehiculoJson);
+		return registradorIngresoService.registrarIngresoVehiculo(vehiculoJson);
 
 	}
 

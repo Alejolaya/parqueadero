@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -15,8 +14,6 @@ import com.ceiba.parqueadero.model.Parqueadero;
 import com.ceiba.parqueadero.model.Parqueo;
 import com.ceiba.parqueadero.model.Vehiculo;
 import com.ceiba.parqueadero.repository.ParqueoRepository;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -155,10 +152,15 @@ public class ParqueoService {
 		return parqueoRepository.save(parqueo);
 	}
 
-	public Parqueo convertirJsonAParqueo(String parqueoJson) throws JsonMappingException, IOException {
+	public Parqueo convertirJsonAParqueo(String parqueoJson)    {
 		ObjectMapper mapper = new ObjectMapper();
 
-		Parqueo parqueo = mapper.readValue(parqueoJson, Parqueo.class);
+		Parqueo parqueo;
+		try {
+			parqueo = mapper.readValue(parqueoJson, Parqueo.class);
+		} catch (IOException e) {
+			return null;
+		}
 		// remover espacios
 		String placa = parqueo.getPlaca().trim();
 		placa = placa.replaceAll("//s", "");

@@ -1,7 +1,7 @@
 package com.ceiba.parqueadero.service;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Service
-public class RegistrarIngresoService {
+public class RegistradorIngresoService {
 
 	private static final int NOT_ACCEPTABLE = 406;
 
@@ -33,7 +33,7 @@ public class RegistrarIngresoService {
 	protected TiempoService tiempoService;
 
 	@Autowired
-	public RegistrarIngresoService(VehiculoService vehiculoService, ParqueoService parqueoService,
+	public RegistradorIngresoService(VehiculoService vehiculoService, ParqueoService parqueoService,
 			ParqueaderoService parqueaderoService, ObjectMapper mapper,TiempoService tiempoService) {
 
 		this.vehiculoService = vehiculoService;
@@ -46,7 +46,8 @@ public class RegistrarIngresoService {
 
 	public Response registrarIngresoVehiculo(String vehiculoJson)  {
 		this.mapper = new ObjectMapper();
-		LocalDateTime fechaActual = LocalDateTime.now();
+		Clock clock = Clock.systemDefaultZone();
+		LocalDateTime fechaActual = tiempoService.tiempoActualTipoLocalDateTime(clock);
 
 		Parqueadero parqueadero = parqueaderoService.findById(1L);
 
