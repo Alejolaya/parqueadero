@@ -60,8 +60,8 @@ public class ParqueoService {
 		LocalDateTime fechaActual = tiempoService.tiempoActualTipoLocalDateTime();
 		LocalDateTime fechaIngreso = parqueo.getFechaIngreso();
 		
-		//Long diffInMillies = calcularDiferenciaEnMiliSeg(tiempoService.converToDate(fechaActual), tiempoService.converToDate(fechaIngreso));
-		Long diffInMillies =Duration.between(fechaActual, fechaIngreso).toMillis();
+		Long diffInMillies = calcularDiferenciaEnMiliSeg(fechaActual, fechaIngreso);
+	
 		Long difEnHoras = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 		Long difEnMinutos = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
 		DecimalFormat df = new DecimalFormat("##");
@@ -79,8 +79,8 @@ public class ParqueoService {
 		return parqueo;
 	}
 
-	public Long calcularDiferenciaEnMiliSeg(Date fechaActual, Date fechaIngreso) {
-		return fechaActual.getTime() - fechaIngreso.getTime();
+	public Long calcularDiferenciaEnMiliSeg(LocalDateTime fechaActual, LocalDateTime fechaIngreso) {
+		return Duration.between(fechaActual, fechaIngreso).toMillis();
 
 	}
 

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -63,13 +64,11 @@ public class ParqueoServiceTest {
 	////////////////////////////////////////////PRUEBAS DE CALCULO DE DIAS////////////////////////
 	@Test
 	public final void testCalcularDiferenciaMiliSeg() throws ParseException  {
-		SimpleDateFormat formatoFecha = new SimpleDateFormat(FORMATOFECHA);
-		String fechaIngresoStr = HORAINGRESO;
-		String fechaSalidaStr = "2019-01-01 00:00:01";
-		Date fechaIngreso = formatoFecha.parse(fechaIngresoStr);
-		Date fechaSalida = formatoFecha.parse(fechaSalidaStr);
 		
-		long difInMilis= parqueoService.calcularDiferenciaEnMiliSeg(fechaSalida, fechaIngreso);
+		LocalDateTime fechaIngreso = LocalDateTime.of(2019,1,1,0,0,0);
+		LocalDateTime fechaSalida = LocalDateTime.of(2019,1,1,0,0,1);
+		
+		long difInMilis= parqueoService.calcularDiferenciaEnMiliSeg(fechaIngreso, fechaSalida);
 		
 		assertThat(difInMilis).isEqualTo(1000);
 		
