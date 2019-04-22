@@ -2,6 +2,7 @@ package com.ceiba.parqueadero;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 
@@ -103,7 +104,7 @@ public class VehiculoServiceTest {
 		Vehiculo vehiculo = new Vehiculo(1L, RGM20E, "C", 100);
 		Parqueo parqueo = null;
 
-		doReturn(parqueo).when(parqueoService).findByPlacaAndFechaSalida(RGM20E, null);
+		when(parqueoService.findByPlacaAndFechaSalida(RGM20E, null)).thenReturn(parqueo);
 
 		vehiculoService.validarVehiculoEnParqueadero(vehiculo);
 
